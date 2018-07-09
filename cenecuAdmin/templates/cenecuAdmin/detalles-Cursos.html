@@ -1,0 +1,57 @@
+{% extends "cenecuAdmin/base.html" %}
+{% load static %}
+{% block titulo %}Curso{% endblock %}
+{% block contenido %}
+            <!-- Bread crumb -->
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            
+            <div class="card">
+                <!-- Mostrar mensajes de operaciones CRUD -->
+                {% if messages %}
+                      {% for message in messages %}
+                          <div class="alert alert-info alert-dismissible">
+                          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                          <p class="{{ message.tags }}" align="center"> {% if message.tags %} {% endif %}{{ message }}</p>
+                          </div>
+                    {% endfor %}
+                {% endif %}
+                <!-- Mostrar informacion de cursos -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Detalle de Cursos</h2>
+                    </div> 
+                    <div id="container-boton">
+                        <a href="/crearCurso"><button style="margin-right: : 0px;" type="button" id="nuevo-boton"class="btn btn-info" data-title="Nuevo" data-target="#nuevo">Nuevo</button>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Eliminar </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Muestro los cursos, descripcion -->
+                        {% for curso in cursos %}
+                        <tr>
+                          <th scope="row"> {{forloop.counter}}</th>
+                          <td> {{curso.nombre}}</td>
+                          <td> {{curso.descripcion}}</td>
+                          <td><p style="color:#31c634;">{{curso.estado}}</p></td>
+                          <!-- Boton para editar curso -->
+                          <td><a href="/editarCurso/{{curso.pk}}"><p  title="Editar"><button type="button" class="btn btn-info" data-title="Editar" data-target="#editar" ><span class="fa fa-edit"></span></button></p></td> </a>
+                          <!--Boton eliminar curso -->
+                          <td><a href="/eliminarCurso/{{curso.pk}}"><p  title="Eliminar"><button  type="button" class="btn btn-danger" data-title="Eliminar" data-target="#eliminar" ><span class="fa fa-trash"></span></button></p></td></a> 
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>         
+            </div>
+{% endblock %}
+

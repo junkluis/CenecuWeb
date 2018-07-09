@@ -1,0 +1,76 @@
+{% extends "cenecuAdmin/base.html" %}
+{% load static %}
+{% block titulo %} Crear curso {% endblock %}
+{% block contenido %}
+	<div class="card">
+		<h2>  Crea un nuevo curso </h2>
+		<div class="card-body">
+			<div class="form-validation">
+                                    <form name="nuevoCurso-form"class="form-valide" action="{% url 'nuevoCurso' %}" method="post" onsubmit="return validarFormulario()"> {% csrf_token %}
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="nombreCurso">Nombre<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="nombreCurso" name="nombreCurso"  maxlength="100" placeholder="Ingrese el nombre del curso " required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="descripcion">Descripción<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength="255" placeholder="Ingrese la descripción del curso" required> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="pensum">Pénsum<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="pensum" name="pensum"  maxlength="255" placeholder="Ingrese el pensum" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="duracion">Duración<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                            <input type="number" min="1" class="form-control" id="duracion" name="duracion"  placeholder="Ingrese la duración" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="horarios">Horarios<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="horarios" name="horarios" maxlength="100" placeholder="Ingrese los horarios" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="costo">Costo<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="number" min="0" max="999" step="0.01" class="form-control" id="costo" name="costo" placeholder="Ingrese el costo" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="imagen">Imagen<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="file" class="form-control" id="imagen" name="imagen" placeholder="Ingrese el url de una imagen" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="estado">Estado<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="estado" name="estado">
+                                                        <option value="Activo">Activo</option>
+                                                        <option value="Inactivo">Inactivo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Crear</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+{% endblock %}
+{% block extraScript %}
+<script src=" {% static 'js/curso.js'' %}"></script>
+{% endblock %}

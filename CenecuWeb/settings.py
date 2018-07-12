@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for CenecuWeb project.
 
@@ -23,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qu_euk1p=r)!8)!+g@^^1vp!9%8(l#!skx!ii8c)jkwo)hva04'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["cenecu.pythonanywhere.com"]
 

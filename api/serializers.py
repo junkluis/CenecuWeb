@@ -131,7 +131,7 @@ class ContenidoCompartidoSerializer(serializers.ModelSerializer):
         """campos"""
         model = ContenidoCompartido
         fields = ('pk', 'curso_id', 'usuario_id',
-                  'fecha_compartido', 'redSocial')
+                  'fecha_compartido', 'red_social')
 
 
 class RegistroUsuarioCursoSerializer(serializers.ModelSerializer):

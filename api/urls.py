@@ -61,6 +61,14 @@ urlpatterns = {
     url(r'^Telefonos/(?P<pk>[0-9]+)/$', TelefonosEdit.as_view(),
         name="TelefonosEdit"),
 
+    url(r'^Hello/$', views.hello_world, name="testOverride"),
+    url(r'^loginCenecu/$', views.loginCenecu, name="login"),
+    url(r'^notasUser/(?P<pk>[0-9]+)/$', views.notasPorUser,
+        name="NotasPorUsuario"),
+    url(r'^borrarNota/(?P<pk>[0-9]+)/$', views.borrarNota, name="borrarNota"),
+    url(r'^registrarUsuario/$', views.registrarUsuario,
+        name="registrarUsuario"),
+    url(r'^logOut/$', views.logOut, name="logOut"),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

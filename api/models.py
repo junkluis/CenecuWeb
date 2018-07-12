@@ -42,7 +42,6 @@ class Curso(models.Model):
         return "{}".format(self.nombre)
 
 
-
 class Profesor(models.Model):
     """Profesores de cenecu"""
 
@@ -82,7 +81,6 @@ class Area(models.Model):
 
     def __str__(self):
         return "{}".format(self.nombre)
-
 
 
 class Anuncio(models.Model):

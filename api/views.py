@@ -217,12 +217,11 @@ class TelefonosEdit(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TelefonosSerializer
 
 
-"""
 @apiView(['GET', 'POST'])
 def hello_world(request):
     if request.method == 'POST':
-        username = 'luis'
-        password = 'Batman123'
+        username = 'testUser'
+        password = 'Password123'
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -231,9 +230,9 @@ def hello_world(request):
             return Response({"user": "you are not my dad"})
     else:
         return Response({"message": "Hello, world!"})
-    
 
-#login API
+
+# login API
 @apiView(['GET', 'POST'])
 def loginCenecu(request):
 
@@ -244,10 +243,10 @@ def loginCenecu(request):
         username = request.data["username"]
         password = request.data["password"]
 
-        user = authenticate(request, username = username, password = password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            userRol = UsuarioRol.objects.get(usuarioId = user.pk)
+            userRol = UsuarioRol.objects.get(usuarioId=user.pk)
             context = {
                 'user': model_to_dict(user),
                 'rol': userRol.rol,
@@ -260,35 +259,34 @@ def loginCenecu(request):
         return Response({"err": "permisosInvalidos"})
 
 
-#Notas por usuario
+# Notas por usuario
 @apiView(['GET'])
 def notasPorUser(request, pk):
 
-    context = {}
     listaNotas = []
 
-    notasUser = Nota.objects.all().filter(usuarioId = pk)
+    notasUser = Nota.objects.all().filter(usuarioId=pk)
     print(notasUser)
     for nota in notasUser:
         listaNotas.append(model_to_dict(nota))
 
-    return Response(listaNotas);
+    return Response(listaNotas)
 
 
 @apiView(['GET'])
 def borrarNota(request, pk):
-    
-    notaBorrar = Nota.objects.get(id = pk)
+
+    notaBorrar = Nota.objects.get(id=pk)
     if notaBorrar is not None:
         notaBorrar.delete()
-        return Response({'msg':'La nota se eliminó con exito'});
+        return Response({'msg': 'La nota se eliminó con exito'})
     else:
-        return Response({'msg': 'err'});
+        return Response({'msg': 'err'})
 
 
 @apiView(['POST'])
 def registrarUsuario(request):
-    
+
     username = request.data["user"]
     password = request.data["pass"]
     apellido = request.data["apellido"]
@@ -296,12 +294,12 @@ def registrarUsuario(request):
     email = request.data["email"]
 
     try:
-        extUser = User.objects.get(username = username)
+        extUser = User.objects.get(username=username)
     except User.DoesNotExist:
         extUser = None
 
     if extUser is None:
-        if username != "" and password != "" and email != "" :
+        if username != "" and password != "" and email != "":
             user = User.objects.create_user(username, email, password)
             if nombre != "":
                 user.first_name = nombre
@@ -310,13 +308,12 @@ def registrarUsuario(request):
             user.save()
             return Response(model_to_dict(user))
         else:
-            return Response({'msg': 'err'});
+            return Response({'msg': 'err'})
     else:
-        return Response({'msg': 'extUser'});
+        return Response({'msg': 'extUser'})
 
 
 @apiView(['GET'])
 def logOut(request):
     logout(request)
-    return Response({'msg': 'logOut'});
-"""
+    return Response({'msg': 'logOut'})

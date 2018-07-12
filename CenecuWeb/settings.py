@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qu_euk1p=r)!8)!+g@^^1vp!9%8(l#!skx!ii8c)jkwo)hva04'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["cenecu.pythonanywhere.com"]
 
 
 # Application definition
@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'CenecuWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cenecu$cenecuApp',
+        'USER': 'cenecu',
+        'PASSWORD': 'C3n3cú2018',
+        'HOST': 'cenecu.mysql.pythonanywhere-services.com',
     }
 }
 
@@ -124,3 +127,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '/home/cenecu/cenecuWeb/static'

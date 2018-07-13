@@ -217,7 +217,7 @@ class TelefonosEdit(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TelefonosSerializer
 
 
-@apiView(['GET', 'POST'])
+@api_view(['GET', 'POST'])
 def hello_world(request):
     if request.method == 'POST':
         username = 'testUser'
@@ -233,7 +233,7 @@ def hello_world(request):
 
 
 # login API
-@apiView(['GET', 'POST'])
+@api_view(['GET', 'POST'])
 def loginCenecu(request):
 
     context = {}
@@ -260,7 +260,7 @@ def loginCenecu(request):
 
 
 # Notas por usuario
-@apiView(['GET'])
+@api_view(['GET'])
 def notasPorUser(request, pk):
 
     listaNotas = []
@@ -273,7 +273,7 @@ def notasPorUser(request, pk):
     return Response(listaNotas)
 
 
-@apiView(['GET'])
+@api_view(['GET'])
 def borrarNota(request, pk):
 
     notaBorrar = Nota.objects.get(id=pk)
@@ -284,7 +284,7 @@ def borrarNota(request, pk):
         return Response({'msg': 'err'})
 
 
-@apiView(['POST'])
+@api_view(['POST'])
 def registrarUsuario(request):
 
     username = request.data["user"]
@@ -313,7 +313,7 @@ def registrarUsuario(request):
         return Response({'msg': 'extUser'})
 
 
-@apiView(['GET'])
+@api_view(['GET'])
 def logOut(request):
     logout(request)
     return Response({'msg': 'logOut'})

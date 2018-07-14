@@ -19,7 +19,8 @@ def apiIndex(request):
     modelos = ['Horario', 'Curso', 'Profesor', 'CursoProfesor', 'Area',
                'Anuncio', 'Frase', 'GoalsList', 'AreaInteres', 'UsuarioRol',
                'Nota', 'ContenidoCompartido', 'RegistroUsuarioCurso',
-               'Telefonos']
+               'Telefonos', 'loginCenecu', 'notasUser', 'borrarNota',
+               'registrarUsuario', 'logOut', ]
 
     respuesta = {'modelos': modelos}
     return render(request, 'api/index.html', respuesta)
@@ -246,7 +247,7 @@ def loginCenecu(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            userRol = UsuarioRol.objects.get(usuarioId=user.pk)
+            userRol = UsuarioRol.objects.get(usuario_id=user.pk)
             context = {
                 'user': model_to_dict(user),
                 'rol': userRol.rol,
@@ -264,7 +265,6 @@ def loginCenecu(request):
 def notasPorUser(request, pk):
 
     listaNotas = []
-
     notasUser = Nota.objects.all().filter(usuarioId=pk)
     print(notasUser)
     for nota in notasUser:

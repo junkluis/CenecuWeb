@@ -247,12 +247,15 @@ def loginCenecu(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            userRol = UsuarioRol.objects.get(usuario_id=user.pk)
-            context = {
-                'user': model_to_dict(user),
-                'rol': userRol.rol,
-                'err': None
-            }
+            try:
+                userRol = UsuarioRol.objects.get(usuario_id=user.pk)
+                context = {
+                    'user': model_to_dict(user),
+                    'rol': userRol.rol,
+                    'err': None
+                }
+            except e:
+                return Response({"err": "permisosInvalidos"})
             return Response(context)
         else:
             return Response({"err": "falloLogin"})

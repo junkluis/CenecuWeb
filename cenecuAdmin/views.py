@@ -1,6 +1,8 @@
 ## -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
+
 from django.shortcuts import render, redirect, render_to_response
 
 from django.http import HttpResponse
@@ -27,9 +29,15 @@ def iniciarSesion(request):
 		clave = request.POST.get('password')
 		user = authenticate(username=usuario, password=clave)
 		if (user is not None):
-			messages.success(request, '¡Bienvenido!')
-			login(request, user)
-			return redirect('/adminIndex/')
+			usuariorol=UsuarioRol.objects.get(usuario_id=request.user.id)
+			if(usuariorol.rol == "admin"):
+				messages.success(request, '¡Bienvenido!')
+				login(request, user)
+				return redirect('/adminIndex/')
+			else:
+				messages.success(request, 'Acceso no autotizado')
+				return redirect ('/login')
+
 		else:
 			messages.success(request, 'Usuario y/o contraseña no válidos')
 			return redirect ('/login')
@@ -76,7 +84,13 @@ def listarProfesores(request):
 def crearCurso (request):
 	"""Muestra la pagina para crear un nuevo curso"""
 	if (request.user.is_authenticated):
-		context = {}
+		area=Area.objects.all()
+		listaProfesor = Profesor.objects.all()
+		print(listaProfesor)
+		context = {
+			'area':area,
+			'listaProfesor':listaProfesor
+		}
 		return  render(request, "cenecuAdmin/crearCurso.html", context)
 	else :
 		return redirect('/login/')	
@@ -85,17 +99,22 @@ def crearCurso (request):
 def nuevoCurso(request):
 	"""Agrega un nuevo curso a la base de datos"""
 	if (request.user.is_authenticated):
-		context = {}
+		listaProfesor = Profesor.objects.all()
+		context = {
+			'listaProfesor': listaProfesor
+		}
 		if (request.POST):
 			nuevoCurso = Curso()
 			nuevoCurso.nombre = request.POST.get('nombreCurso')
 			nuevoCurso.descripcion = request.POST.get('descripcion')
 			nuevoCurso.urlPensum = request.POST.get('pensum')
 			nuevoCurso.duracion = request.POST.get('duracion')
-			nuevoCurso.horario = request.POST.get('horarios')
+			nuevoCurso.tipoDuracion = request.POST.get('tipoDuracion')
+			
 			nuevoCurso.costo = request.POST.get('costo')
 			nuevoCurso.imgCurso = request.POST.get('imagen')
 			nuevoCurso.estado = request.POST.get('estado')
+			nuevoCurso.fecha_creado = datetime.datetime.now()
 			nuevoCurso.save()
 			messages.success(request, '¡Curso creado correctamente!')
 		return redirect('/adminIndex/')

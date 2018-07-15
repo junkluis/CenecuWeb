@@ -6,17 +6,28 @@
 		<h2>  Crea un nuevo curso </h2>
 		<div class="card-body">
 			<div class="form-validation">
-                                    <form name="nuevoCurso-form"class="form-valide" action="{% url 'nuevoCurso' %}" method="post" onsubmit="return validarFormulario()"> {% csrf_token %}
+                                    <form name="nuevoCurso-form"class="form-valide" action="{% url 'nuevoCurso' %}" method="post" onsubmit=" return validarFormulario()"
+                                    enctype="multipart/form-data"> {% csrf_token %}
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="nombreCurso">Nombre<span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="nombreCurso" name="nombreCurso"  maxlength="100" placeholder="Ingrese el nombre del curso " required >
+                                                <input type="text" class="form-control" id="nombreCurso" name="nombreCurso"  maxlength="100" placeholder="Ingrese el nombre del curso " required  >
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="descripcion">Descripción<span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength="255" placeholder="Ingrese la descripción del curso" required> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="area">Area<span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="area" name="area">
+                                                    {%for area in area %}
+                                                        <option value="{{area.pk}}">{{area.nombre}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -33,11 +44,11 @@
                                         </div>
 
                                          <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="estado">Tipo duracion<span class="text-danger">*</span></label>
+                                            <label class="col-lg-4 col-form-label" for="tipoDuracion">Tipo duracion<span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <select class="form-control" id="estado" name="estado">
-                                                        <option value="Horas">Horas</option>
-                                                        <option value="Semanas">Semanas</option>
+                                                <select class="form-control" id="tipoDuracion" name="tipoDuracion">
+                                                        <option value="H">Horas</option>
+                                                        <option value="S">Semanas</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -49,9 +60,9 @@
                                             </div>
                                         </div>
                                          <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="estado">Profesor<span class="text-danger">*</span></label>
+                                            <label class="col-lg-4 col-form-label" for="profesor">Profesor<span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <select class="form-control" id="estado" name="estado">
+                                                <select class="form-control" id="profesor" name="profesor">
                                                     {%for profesor in listaProfesor%}
                                                         <option value="{{profesor.pk}}"> {{profesor.nombre}} {{profesor.apellido }}</option>
                                                     {% endfor %}
@@ -62,7 +73,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="imagen">Imagen<span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="file" class="form-control" id="imagen" name="imagen" placeholder="Ingrese el url de una imagen" required>
+                                                <input type="file" class="form-control" id="imagen" name="imagen" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">

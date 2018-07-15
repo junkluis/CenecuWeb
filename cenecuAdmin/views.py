@@ -97,25 +97,28 @@ def crearCurso (request):
 
 
 def nuevoCurso(request):
-	"""Agrega un nuevo curso a la base de datos"""
+	"""Agrega un nuevo curso a la base de datos , crea relacion entre profesor y curso """
 	if (request.user.is_authenticated):
-		listaProfesor = Profesor.objects.all()
 		context = {
-			'listaProfesor': listaProfesor
 		}
 		if (request.POST):
 			nuevoCurso = Curso()
 			nuevoCurso.nombre = request.POST.get('nombreCurso')
 			nuevoCurso.descripcion = request.POST.get('descripcion')
-			nuevoCurso.urlPensum = request.POST.get('pensum')
-			nuevoCurso.duracion = request.POST.get('duracion')
-			nuevoCurso.tipoDuracion = request.POST.get('tipoDuracion')
-			
+			nuevoCurso.pensum = request.FILES.get('pensum')
+			nuevoCurso.duracion_cant = request.POST.get('duracion')
+			nuevoCurso.duracion_tipo = request.POST.get('tipoDuracion')
 			nuevoCurso.costo = request.POST.get('costo')
-			nuevoCurso.imgCurso = request.POST.get('imagen')
+			nuevoCurso.img_curso = request.FILES.get('imagen')
+			areaRequerido = Area.objects.get(pk=request.POST.get('area'))
+			nuevoCurso.area_estudio = areaRequerido
 			nuevoCurso.estado = request.POST.get('estado')
 			nuevoCurso.fecha_creado = datetime.datetime.now()
 			nuevoCurso.save()
+			cursoProfesor = CursoProfesor()
+			cursoProfesor.curso_id = nuevoCurso
+			cursoProfesor.profesor_id = Profesor.objects.get(pk=request.POST.get('profesor'))
+			cursoProfesor.save()
 			messages.success(request, '¡Curso creado correctamente!')
 		return redirect('/adminIndex/')
 	else :
@@ -130,12 +133,12 @@ def modificarCurso(request):
 			nuevoCurso = Curso.objects.get(id=int(request.POST.get('idcurso')))
 			nuevoCurso.nombre = request.POST.get('nombreCurso')
 			nuevoCurso.descripcion = request.POST.get('descripcion')
-			nuevoCurso.urlPensum = request.POST.get('pensum')
-			nuevoCurso.duracion = request.POST.get('duracion')
-			nuevoCurso.horario = request.POST.get('horarios')
+			nuevoCurso.pensum = request.FILES.get('pensum')
+			nuevoCurso.duracion_cant = request.POST.get('duracion')
 			nuevoCurso.costo = request.POST.get('costo')
-			nuevoCurso.imgCurso = request.POST.get('imgCurso')
+			nuevoCurso.img_curso = request.FILES.get('imgCurso')
 			nuevoCurso.estado = request.POST.get('estado')
+			nuevoCurso.fecha_creado = datetime.datetime.now()
 			nuevoCurso.save()
 			messages.success(request, '¡Curso modificado correctamente!')
 		return redirect ('/adminIndex/')
@@ -148,25 +151,34 @@ def editarCurso(request,pk):
 	if (request.user.is_authenticated):
 		idcurso = pk
 		listaProfesores = Profesor.objects.all()
+		listaArea = Area.objects.all()
 		cursoRequerido = Curso.objects.get(pk=pk)
+		cursoProfesor = CursoProfesor.objects.get(curso_id=cursoRequerido.pk)
+		nombreProfesor = cursoProfesor.profesor_id
 		nombre = cursoRequerido.nombre
 		descripcion = cursoRequerido.descripcion
-		urlPensum = cursoRequerido.urlPensum
-		duracion = cursoRequerido.duracion
-		horarios = cursoRequerido.horario
+		urlPensum = cursoRequerido.pensum
+		duracion = cursoRequerido.duracion_cant
+		duracion_tipo = cursoRequerido.duracion_tipo
 		costo = cursoRequerido.costo
-		imgCurso = cursoRequerido.imgCurso
+		imgCurso = cursoRequerido.img_curso
+		
 		estado = cursoRequerido.estado
+		areaRequerido = Area.objects.get(pk=cursoRequerido.area_estudio.pk)
+		area_estudio = areaRequerido
 		context = {
-			'nombre':cursoRequerido,
+			'nombre':nombre,
 			'descripcion': descripcion,
 			'duracion': duracion,
+			'duracion_tipo': duracion_tipo,
 			'costo': costo,
-			'horario': horarios,
 			'profesores': listaProfesores,
 			'estado': estado,
 			'imgCurso': imgCurso,
 			'urlPensum': urlPensum,
+			'area_estudio':area_estudio,
+			'listaArea':listaArea,
+			'nombreProfesor': nombreProfesor,
 			'idcurso': idcurso
 		}
 		return render(request, "cenecuAdmin/editarCurso.html", context)

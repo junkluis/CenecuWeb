@@ -13,6 +13,7 @@ from .models import Frase, GoalsList, AreaInteres, UsuarioRol, Nota
 from .models import ContenidoCompartido, RegistroUsuarioCurso, Telefonos
 from django.forms.models import model_to_dict
 from django.utils.encoding import python_2_unicode_compatible
+from django.contrib.auth.models import User
 
 
 def apiIndex(request):
@@ -247,15 +248,12 @@ def loginCenecu(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            try:
-                userRol = UsuarioRol.objects.get(usuario_id=user.pk)
-                context = {
-                    'user': model_to_dict(user),
-                    'rol': userRol.rol,
-                    'err': None
-                }
-            except e:
-                return Response({"err": "permisosInvalidos"})
+            userRol = UsuarioRol.objects.get(usuario_id=user.pk)
+            context = {
+                'user': model_to_dict(user),
+                'rol': userRol.rol,
+                'err': None
+            }
             return Response(context)
         else:
             return Response({"err": "falloLogin"})
@@ -268,8 +266,7 @@ def loginCenecu(request):
 def notasPorUser(request, pk):
 
     listaNotas = []
-    notasUser = Nota.objects.all().filter(usuarioId=pk)
-    print(notasUser)
+    notasUser = Nota.objects.all().filter(usuario_id=pk)
     for nota in notasUser:
         listaNotas.append(model_to_dict(nota))
 

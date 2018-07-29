@@ -16,7 +16,7 @@ from . import views
 
 
 urlpatterns = {
-    url(r'^$', views.apiIndex, name="Index"),
+    url(r'^$', views.api_index, name="Index"),
     url(r'^Horario/$', HorarioView.as_view(), name="Horario"),
     url(r'^Curso/$', CursoView.as_view(), name="Curso"),
     url(r'^Profesor/$', ProfesorView.as_view(), name="Profesor"),
@@ -62,13 +62,13 @@ urlpatterns = {
         name="TelefonosEdit"),
 
     url(r'^Hello/$', views.hello_world, name="testOverride"),
-    url(r'^loginCenecu/$', views.loginCenecu, name="login"),
-    url(r'^notasUser/(?P<pk>[0-9]+)/$', views.notasPorUser,
-        name="NotasPorUsuario"),
-    url(r'^borrarNota/(?P<pk>[0-9]+)/$', views.borrarNota, name="borrarNota"),
-    url(r'^registrarUsuario/$', views.registrarUsuario,
-        name="registrarUsuario"),
-    url(r'^logOut/$', views.logOut, name="logOut"),
+    url(r'^loginCenecu/$', views.login_cenecu, name="login"),
+    url(r'^notasUser/(?P<pk>[0-9]+)/$', views.notas_por_user,
+        name="notas_por_user"),
+    url(r'^borrarNota/(?P<pk>[0-9]+)/$', views.borrar_nota, name="borrar_nota"),
+    url(r'^registrarUsuario/$', views.registrar_usuario,
+        name="registrar_usuario"),
+    url(r'^logOut/$', views.log_out, name="log_out"),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

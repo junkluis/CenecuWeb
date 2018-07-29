@@ -25,7 +25,7 @@ class Horario(models.Model):
 class Curso(models.Model):
     """Cursos de cenecu"""
 
-    tipo_duracion = (('S', 'Semanas'), ('H', 'Horas'))
+    tipo_duracion = (('S', 'Semanas'), ('M', 'Meses'))
     nombre = models.CharField(max_length=100, blank=False)
     descripcion = models.CharField(max_length=255, blank=False)
     pensum = models.FileField(upload_to='uploads/pensums/')
@@ -88,8 +88,7 @@ class Anuncio(models.Model):
 
     descripcion = models.CharField(max_length=255, blank=False)
     img_anuncio = models.ImageField(upload_to='uploads/anuncio/')
-    url_anuncio = models.CharField(max_length=255, blank=False)
-    fecha_caducidad = models.DateField()
+    fecha_limite = models.DateField()
     estado = models.CharField(max_length=10, blank=False)
     fecha_creado = models.DateTimeField(auto_now_add=True)
 

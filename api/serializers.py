@@ -67,7 +67,7 @@ class AnuncioSerializer(serializers.ModelSerializer):
         """campos"""
         model = Anuncio
         fields = ('pk', 'descripcion', 'img_anuncio',
-                  'url_anuncio', 'fecha_caducidad', 'estado', 'fecha_creado')
+                  'fecha_limite', 'estado', 'fecha_creado')
         read_only_fields = ['fecha_creado']
 
 

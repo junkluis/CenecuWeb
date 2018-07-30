@@ -1,4 +1,4 @@
-# coding=utf-8
+﻿# coding=utf-8
 """
 Django settings for CenecuWeb project.
 
@@ -86,6 +86,10 @@ DATABASES = {
         'HOST': 'cenecu.mysql.pythonanywhere-services.com',
     }
 }
+
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 
 # Password validation

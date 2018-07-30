@@ -1,3 +1,4 @@
+﻿# coding=utf-8
 '''
 pruebas sin terminar
 faltan configurar los datos para cada prueba

@@ -25,7 +25,7 @@ class Horario(models.Model):
 class Curso(models.Model):
     """Cursos de cenecu"""
 
-    tipo_duracion = (('S', 'Semanas'), ('M', 'Meses'))
+    tipo_duracion = (('S', 'Semanas'), ('H', 'Horas'))
     nombre = models.CharField(max_length=100, blank=False)
     descripcion = models.CharField(max_length=255, blank=False)
     pensum = models.FileField(upload_to='uploads/pensums/')

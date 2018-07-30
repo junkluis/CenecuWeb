@@ -443,7 +443,7 @@ def registrar_usuario(request):
 
     try:
         ext_user = User.objects.get(username = username)
-    except User.DoesNotExist:
+    except user.DoesNotExist:
         ext_user = None
 
     if ext_user is None:

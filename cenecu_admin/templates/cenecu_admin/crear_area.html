@@ -1,0 +1,98 @@
+{% extends "cenecu_admin/base.html" %}
+{% load static %}
+{% block titulo %} Crear Área {% endblock %}
+{% block contenido %}
+<!-- Permite la creacion de información de un área de interés -->
+<div class="card">
+  <h2> Crea una nueva área de interés </h2>
+  
+  <!-- Campos de un área de interés -->
+  <div class="card-body">
+    <div class="form-validation">
+      <form class="form-valide" action="{% url 'nueva_area' %}"
+          method="post"  enctype="multipart/form-data"> {% csrf_token %}
+        
+        <div class="form-group row">
+          <label class="col-lg-4 col-form-label" for="nombreArea">
+            Nombre<span class="text-danger">*</span></label>
+          <div class="col-lg-6">
+            <input type="text" class="form-control texto" id="nombreArea" 
+              name="nombreArea" maxlength="20"
+              placeholder="Ingrese el nombre del área de interés" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-lg-4 col-form-label" for="descripcion">
+            Descripción<span class="text-danger">*</span></label>
+          <div class="col-lg-6">
+            <input type="textarea"  style=" height: 100px;" rows="10" 
+            cols="50" class="form-control" id="descripcion" name="descripcion" 
+            maxlength="255" placeholder="Ingrese la descripción del área de interés" 
+            required onkeydown="validarDescripcionArea(event)" 
+            autocomplete="off">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-lg-4 col-form-label" for="img_area">
+            Imagen<span class="text-danger">*</span></label>
+          <div class="col-lg-3">
+            <input type="FILE" class="form-control" id="img_area" 
+              name="img_area" required onchange="validarFormatoImagen()"
+              accept="image/jpg, image/jpeg, image/png">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-lg-4 col-form-label" for="estado">
+            Estado<span class="text-danger">*</span></label>
+          <div class="col-lg-6">
+            <select class="form-control" id="estado" name="estado">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Boton para agregar una nueva area de interes-->
+        <div class="form-group row">
+          <div class="col-lg-8 ml-auto">
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </div>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extraScript %}
+<script type="text/javascript">
+
+  function validarDescripcionArea(event){
+    var area = document.getElementById('descripcion').value;
+    var key = event.key;            // Obtengo la tecla que presiono
+    var keyCode = event.keyCode;    // Obtengo el codigo de la tecla
+    
+    expresion = /([a-zA-Z]+)([a-zA-Z0-9]*)/g;
+    resultado = expresion.test(area+key);
+    
+    if(resultado == true && area.length < 255){
+        console.log("correcto");
+    } else {
+        event.preventDefault();
+    } 
+  }
+
+  function validarFormatoImagen(){
+    var extensionImagenes = /(.jpg|.jpeg|.png)$/i;
+    var imagen = document.getElementById('img_area');
+    var archivo = imagen.value;
+    if(!extensionImagenes.test(archivo)){
+        console.log(archivo);
+        alert("El formato de la imagen no es válido");
+    }
+  }
+</script>
+{% endblock %}

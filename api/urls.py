@@ -73,9 +73,12 @@ urlpatterns = {
     url(r'^registrarUsuario/$', views.registrar_usuario,
         name="registrar_usuario"),
     url(r'^logOut/$', views.log_out, name="log_out"),
+
+    '''
     url(r'^auth-jwt/', obtain_jwt_token),
     url(r'^auth-jwt-refresh/', refresh_jwt_token),
     url(r'^auth-jwt-verify/', verify_jwt_token),
+    '''
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

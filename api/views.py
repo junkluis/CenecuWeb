@@ -468,3 +468,9 @@ def log_out(request):
     ''' 
     logout(request)
     return Response({'msg': 'logOut'})
+
+
+@api_view(['GET'])
+def get_user(request):
+    usuario = request.user
+    return Response(model_to_dict(usuario))    

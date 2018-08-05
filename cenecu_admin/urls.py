@@ -2,7 +2,6 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
-from django.contrib.auth.views import login
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -40,5 +39,5 @@ urlpatterns = [
     url(r'^reportes/$',views.visualizar_reporte, name='visualizar_reporte'),
     url(r'^refresh/$', views.ajaxReporteCompartido, name='ajaxReporteCompartido'),
     url(r'^logout/$',views.cerrar_sesion, name='cerrar_sesion'),
-    
+
 ]

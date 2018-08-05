@@ -154,6 +154,7 @@ class CursoProfesorTestCase(TestCase):
         profesorT = Profesor.objects.create(**profesorTinfo, area_especializacion=areaT)
         areaT = Area.objects.create(**areaTinfo)
         cursoT = Curso.objects.create(**cursoTinfo, area_estudio=areaT)
+        cursoProfesor = CursoProfesor.objects.get()
         NuevoCursoProfesor = {'curso_id' : otroCurso.pk,
                              'profesor_id' : profesorT.pk }
         res = self.client.put(

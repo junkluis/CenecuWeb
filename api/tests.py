@@ -52,8 +52,8 @@ telefonos
 
 
 
-areaTinfo = {'nombre': 'Idiomas', 'descripcion': 'Capacitaciones sobre ingles, francés, aleman',
-             'img_area': 'http://cenecu.pythonanywhere.com/media/uploads/areas/hello.jpg',
+areaTinfo = {'nombre': 'Idiomas', 'descripcion': 'Capacitaciones sobre ingles, francés, aleman', 
+             'img_area': 'http://cenecu.pythonanywhere.com/media/uploads/areas/hello.jpg', 
              'estado': 'activo'}
 
 cursoTinfo = {'nombre': 'Excel Avanzado',
@@ -89,17 +89,15 @@ class HorarioTestCase(TestCase):
         self.client = APIClient()
         self.horarioData = {'curso_id' : cursoT.pk,
                             'dia' : 'L',
-                            'hora_inicio' : '8',
-                            'minutos_inicio' : '30',
-                            'hora_fin' : '10',
-                            'minutos_fin' : '30' }
-        self.response = self.client.post(reverse('Horario'), self.horarioData, format='multipart')
-
-
+                            'hora_inicio' : 8,
+                            'minutos_inicio' : 30,
+                            'hora_fin' : 10,
+                            'minutos_fin' : 30 }
+        self.response = self.client.post(reverse('Horario'), self.horarioData, format='json')
+    
     def test_crear_horario(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
-    '''
     def test_obtener_un_horario(self):
         horario = Horario.objects.get()
         response = self.client.get(reverse('HorarioEdit', kwargs={'pk': horario.id}), format="json")
@@ -128,10 +126,10 @@ class HorarioTestCase(TestCase):
             reverse('HorarioEdit', kwargs={'pk': horario.id}),
                     format='json', follow=True)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
-    '''
 
+'''
 class CursoProfesorTestCase(TestCase):
-
+    
     def setUp(self):
         areaT = Area.objects.create(**areaTinfo)
         cursoT = Curso.objects.create(**cursoTinfo, area_estudio=areaT)
@@ -140,25 +138,22 @@ class CursoProfesorTestCase(TestCase):
         self.cursoProfesorData = {'curso_id' : cursoT.pk,
                                   'profesor_id' : profesorT.pk }
         self.response = self.client.post(reverse('CursoProfesor'), self.cursoProfesorData, format='json')
-
+    
     def test_crear_curso_profesor(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
-    '''
     def test_obtener_un_curso_profesor(self):
         cursoProfesor = CursoProfesor.objects.get()
         response = self.client.get(reverse('CursoProfesorEdit', kwargs={'pk': cursoProfesor.id}), format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-    '''
 
-    '''
     def test_actualizar_un_curso_profesor(self):
         areaT = Area.objects.create(**areaTinfo)
         otroCurso = Curso.objects.create(**cursoTinfo, area_estudio=areaT)
         profesorT = Profesor.objects.create(**profesorTinfo, area_especializacion=areaT)
+        cursoProfesor = CursoProfesor.objects.get()
         areaT = Area.objects.create(**areaTinfo)
         cursoT = Curso.objects.create(**cursoTinfo, area_estudio=areaT)
-        cursoProfesor = CursoProfesor.objects.get(pk = 1)
         NuevoCursoProfesor = {'curso_id' : otroCurso.pk,
                              'profesor_id' : profesorT.pk }
         res = self.client.put(
@@ -173,11 +168,10 @@ class CursoProfesorTestCase(TestCase):
             reverse('CursoProfesorEdit', kwargs={'pk': cursoProfesor.id}),
                     format='json', follow=True)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
-    '''
 
 
 class GoalsListTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser2', 'myemail@test.com', 'password')
         areaT = Area.objects.create(**areaTinfo)
@@ -187,16 +181,14 @@ class GoalsListTestCase(TestCase):
                                    "curso_id": cursoT.pk,
                                    "estado": "activo" }
         self.response = self.client.post(reverse('GoalsList'), self.goalsListData, format='json')
-
+    
     def test_crear_goals_list(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
-    '''
     def test_obtener_un_goals_list(self):
         goals = GoalsList.objects.get()
         response = self.client.get(reverse('GoalsListEdit', kwargs={'pk': goals.id}), format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
     def test_actualizar_un_goals_list(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
@@ -218,10 +210,10 @@ class GoalsListTestCase(TestCase):
             reverse('GoalsListEdit', kwargs={'pk': goals.id}),
                     format='json', follow=True)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
-    '''
+
 
 class AreaInteresTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         areaT = Area.objects.create(**areaTinfo)
@@ -229,26 +221,26 @@ class AreaInteresTestCase(TestCase):
         self.areaInteresData = { "usuario_id": usuarioT.pk,
                                    "area_id": areaT.pk }
         self.response = self.client.post(reverse('AreaInteres'), self.areaInteresData, format='json')
-
+    
     def test_crear_area_interes(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class UsuarioRolTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         self.client = APIClient()
         self.usuarioRolData = { "usuario_id": usuarioT.pk,
                                    "rol": "cliente" }
         self.response = self.client.post(reverse('UsuarioRol'), self.usuarioRolData, format='json')
-
+    
     def test_crear_usuario_rol(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class NotaTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         self.client = APIClient()
@@ -260,13 +252,13 @@ class NotaTestCase(TestCase):
                                 "usuario_id": usuarioT.pk,
                                 "estado": "activo" }
         self.response = self.client.post(reverse('Nota'), self.usuarioData, format='json')
-
+    
     def test_crear_nota(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class ContenidoCompartidoTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         areaT = Area.objects.create(**areaTinfo)
@@ -277,13 +269,13 @@ class ContenidoCompartidoTestCase(TestCase):
                                          "fecha_compartido": "2018-07-28T02:28:43.958407Z",
                                          "red_social": "tw" }
         self.response = self.client.post(reverse('ContenidoCompartido'), self.contenidoCompartidoData, format='json')
-
+    
     def test_crear_contenido_compartido(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class RegistroUsuarioCursoTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         areaT = Area.objects.create(**areaTinfo)
@@ -293,13 +285,13 @@ class RegistroUsuarioCursoTestCase(TestCase):
                                           "usuario_id": usuarioT.pk,
                                           "fecha_solicitud": "2018-07-28T02:28:43.958407Z" }
         self.response = self.client.post(reverse('RegistroUsuarioCurso'), self.registroUsuarioCursoData, format='json')
-
+    
     def test_crear_registro_usuario_curso(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class TelefonosTestCase(TestCase):
-
+    
     def setUp(self):
         usuarioT = User.objects.create_user('myuser', 'myemail@test.com', 'password')
         areaT = Area.objects.create(**areaTinfo)
@@ -308,13 +300,13 @@ class TelefonosTestCase(TestCase):
         self.telefonoData = { "usuario_id": usuarioT.pk,
                               "telefonos": "123456789" }
         self.response = self.client.post(reverse('Telefonos'), self.telefonoData, format='json')
-
+    
     def test_crear_telefono(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
 
 class UsuarioTestCase(TestCase):
-
+    
     def setUp(self):
         self.client = APIClient()
         self.userData = { "user": "prueba",
@@ -323,7 +315,8 @@ class UsuarioTestCase(TestCase):
                               "nombre": "Snow",
                               "email": "john@gmail.com" }
         self.response = self.client.post(reverse('registrar_usuario'), self.userData, format='json')
-
+    
     def test_registrar_usuario(self):
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
+'''

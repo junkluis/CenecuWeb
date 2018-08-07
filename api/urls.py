@@ -19,7 +19,6 @@ from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
 
-
 urlpatterns = {
     url(r'^$', views.api_index, name="Index"),
     url(r'^Horario/$', HorarioView.as_view(), name="Horario"),
@@ -71,14 +70,18 @@ urlpatterns = {
     url(r'^notasUser/(?P<pk>[0-9]+)/$', views.notas_por_user,
         name="notas_por_user"),
     url(r'^borrarNota/(?P<pk>[0-9]+)/$', views.borrar_nota, name="borrar_nota"),
+    url(r'^cumplirNota/(?P<pk>[0-9]+)/$', views.cumplir_nota, name="cumplir_nota"),
     url(r'^registrarUsuario/$', views.registrar_usuario,
         name="registrar_usuario"),
+    url(r'^horarioPorCurso/(?P<pk>[0-9]+)/$',views.horarios_por_curso, name="horario_por_curso"),
     url(r'^logOut/$', views.log_out, name="log_out"),
+    url(r'^horariosPorCurso/(?P<pk>[0-9]+)/$', views.horarios_por_curso, name="horarios_por_curso"),
 
     url(r'^auth-jwt/', obtain_jwt_token),
     url(r'^auth-jwt-refresh/', refresh_jwt_token),
     url(r'^auth-jwt-verify/', verify_jwt_token),
     url(r'^get-user/', views.get_user, name="user_info"),
+
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -12,6 +12,9 @@ from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+import xlsxwriter
+from io import BytesIO
 
 def iniciar_sesion(request):
     """Inicia sesion en la app web del Administrador"""
@@ -22,15 +25,15 @@ def iniciar_sesion(request):
         clave = request.POST.get('password')
         user = authenticate(username = usuario, password = clave)
         if (user is not None):
-        	login(request, user)
-        	iduser = request.user.id
-        	usuariorol = get_object_or_404(UsuarioRol, usuario_id = iduser)
-        	if(usuariorol.rol == "admin"  or usuariorol.rol == "administrador"):
-	        	messages.success(request, '¡Bienvenido!')
-	        	return redirect('/adminIndex/')
-        	else:
-	        	messages.success(request, 'Acceso no autotizado')
-	        	return redirect ('/login')
+            login(request, user)
+            iduser = request.user.id
+            usuario_rol = UsuarioRol.objects.get(usuario_id = iduser)
+            if(usuario_rol.rol == "admin"  or usuario_rol.rol == "administrador"):
+                messages.success(request, '¡Bienvenido!')
+                return redirect('/')
+            else:
+                messages.success(request, 'Acceso no autotizado')
+                return redirect ('/login')
         else:
         	messages.success(request, 'Usuario y/o contraseña no válidos')
         	return redirect ('/login')
@@ -279,6 +282,9 @@ def nuevo_curso(request):
         }
         if (request.POST):
             nuevo_curso = Curso()
+            lista_dias = request.POST.getlist('checks[]')
+            hora_inicio = request.POST.get('hora-inicio').split(":")
+            hora_fin = request.POST.get('hora-fin').split(":")
             nuevo_curso.nombre = request.POST.get('nombreCurso')
             nuevo_curso.descripcion = request.POST.get('descripcion')
             nuevo_curso.pensum = request.FILES.get('pensum')
@@ -288,15 +294,24 @@ def nuevo_curso(request):
             nuevo_curso.img_curso = request.FILES.get('imagen')
             area_requerido = Area.objects.get(pk=request.POST.get('area'))
             nuevo_curso.area_estudio = area_requerido
-            nuevo_curso.estado = request.POST.get('estado')
+            nuevo_curso.estado = "Activo"
             nuevo_curso.fecha_creado = datetime.datetime.now()
             nuevo_curso.save()
             curso_profesor = CursoProfesor()
             curso_profesor.curso_id = nuevo_curso
             curso_profesor.profesor_id = Profesor.objects.get(pk = request.POST.get('profesor'))
             curso_profesor.save()
+            for i in lista_dias:
+                horario = Horario()
+                horario.curso_id = nuevo_curso
+                horario.dia = (i).encode("utf-8")
+                horario.hora_inicio = int(hora_inicio[0])
+                horario.minutos_inicio =  int(hora_inicio[1])
+                horario.hora_fin =  int(hora_fin[0])
+                horario.minutos_fin = int(hora_fin[1])
+                horario.save()
             messages.success(request, '¡Curso creado correctamente!')
-        return redirect('/adminIndex/')
+        return redirect('/')
     else:
         return redirect('/login/')	
 
@@ -313,11 +328,11 @@ def modificar_curso(request):
             nue_curso.duracion_cant = request.POST.get('duracion')
             nue_curso.costo = request.POST.get('costo')
             nue_curso.img_curso = request.FILES.get('imgCurso')
-            nue_curso.estado = request.POST.get('estado')
+            nue_curso.estado = "Activo"
             nue_curso.fecha_creado = datetime.datetime.now()
             nue_curso.save()
             messages.success(request, '¡Curso modificado correctamente!')
-        return redirect ('/adminIndex/')
+        return redirect ('/')
     else:
         return redirect('/login/')	
 
@@ -328,9 +343,16 @@ def editar_curso(request, pk):
         idcurso = pk
         lista_profesores = Profesor.objects.all()
         lista_area = Area.objects.all()
+        horario_curso = Horario.objects.filter(curso_id=pk)
+        for j in horario_curso:
+            hora_inicio = j.hora_inicio
+            minutos_inicio = j.minutos_inicio
+            hora_fin = j.hora_fin
+            minutos_fin = j.minutos_fin
         curso_requerido = Curso.objects.get(pk = pk)
         curso_profesor = CursoProfesor.objects.get(curso_id = curso_requerido.pk)
-        nombre_profesor = curso_profesor.profesor_id
+        id_profesor = curso_profesor.profesor_id
+        nombreProfesor = id_profesor.nombre
         nombre = curso_requerido.nombre
         descripcion = curso_requerido.descripcion
         url_pensum = curso_requerido.pensum
@@ -353,7 +375,12 @@ def editar_curso(request, pk):
             'urlPensum': url_pensum,
             'area_estudio':area_estudio,
             'listaArea':lista_area,
-            'nombreProfesor': nombre_profesor,
+            'nombreProfesor': nombreProfesor,
+            'horario_curso': horario_curso,
+            'hora_inicio':hora_inicio,
+            'minutos_inicio':minutos_inicio,
+            'hora_fin':hora_fin,
+            'minutos_fin':minutos_fin,
             'idcurso': idcurso
         }
         return render(request, "cenecu_admin/editar_curso.html", context)
@@ -361,15 +388,17 @@ def editar_curso(request, pk):
         return redirect('/login/')	
 
 
+
 def eliminar_curso(request, pk):
     """Elimina un curso de la base de datos"""
     if (request.user.is_authenticated):
         curso = Curso.objects.get(pk = pk)
-        curso.delete()
+        curso.estado = "Inactivo"
+        curso.save()
         messages.success(request, '¡Curso eliminado correctamente!')
-        return redirect('/adminIndex/')
+        return redirect('/')
     else:
-        return redirect('/login/')	
+        return redirect('/login/')  
 
 
 def crear_profesor (request):
@@ -516,7 +545,7 @@ def nuevo_anuncio(request):
             nuevo_anuncio.fecha_limite = request.POST.get('fecha_limite')
             nuevo_anuncio.fecha_creado = datetime.datetime.now()
             nuevo_anuncio.save()
-            messages.success(request, '¡Anuncio creada correctamente!')
+            messages.success(request, '¡Anuncio publicitario creado correctamente!')
         return redirect('/listarAnuncios/')
     else:
         return redirect('/login/')
@@ -533,7 +562,7 @@ def modificar_anuncio(request):
             nueva_anuncio.fecha_limite = request.POST.get('fecha_limite')
             nueva_anuncio.fecha_creado = datetime.datetime.now()
             nueva_anuncio.save()
-            messages.success(request, '¡Anuncio modificada correctamente!')
+            messages.success(request, '¡Anuncio publicitario modificado correctamente!')
         return redirect('/listarAnuncios/')
     else:
         return redirect('/login/')  
@@ -564,7 +593,7 @@ def eliminar_anuncio(request, pk):
     if (request.user.is_authenticated):
         anuncio = Anuncio.objects.get(pk = pk)
         anuncio.delete()
-        messages.success(request, '¡Anuncio eliminado correctamente!')
+        messages.success(request, '¡Anuncio publicitario eliminado correctamente!')
         return redirect('/listarAnuncios/')
     else:
         return redirect('/login/')  
@@ -619,12 +648,119 @@ def visualizar_reporte (request):
              'dict_curso_numerointeres' : dict_curso_numerointeres,
              'dict_curso_numregistro' : dict_curso_numregistro,
              'dict_curso_red_compartida': dict_curso_red_compartida,
+             'lista_curso': lista_curso
         }
         return render(request, "cenecu_admin/reportes.html", context)
     else:
         return redirect('/login/')
 
+def reporte_user_area_interes(request):
+    if(request.user.is_authenticated):
+        lista_area = list(Area.objects.all())
+        lista_curso = list(Curso.objects.all())
+        numeroareas=len((lista_area))
+        dict_curso_numerointeres = {}
+        while (numeroareas !=0):
+            idarea = lista_area[numeroareas-1].id
+            nombreArea = (Area.objects.get(pk = idarea).nombre)
+            dict_curso_numerointeres[nombreArea] = AreaInteres.objects.filter(area_id=idarea).count()
+            numeroareas = numeroareas -1
+        context = {
+            'dict_curso_numerointeres' : dict_curso_numerointeres,
+        }
+        return render(request, "cenecu_admin/reporte_usuario_area.html", context)
+    else:
+        return redirect('/login/')
 
+def reporte_user_solicitud_registro(request):
+    
+    if(request.user.is_authenticated):
+        lista_curso = list(Curso.objects.all())
+        numeroCursos = len(lista_curso)
+        dict_curso_numregistro = {}
+        while (numeroCursos !=0):
+            idcurso=lista_curso[numeroCursos-1].id
+            nombre_curso = (Curso.objects.get(pk= idcurso).nombre)
+            if( RegistroUsuarioCurso.objects.filter(curso_id=idcurso).count() > 0):
+                dict_curso_numregistro[nombre_curso] = RegistroUsuarioCurso.objects.filter(curso_id=idcurso).count()
+            numeroCursos = numeroCursos -1
+        print(dict_curso_numregistro)
+        total_cursos = len(dict_curso_numregistro)
+        print(len(dict_curso_numregistro))
+        context ={
+            'dict_curso_numregistro': dict_curso_numregistro,
+            'total_cursos': total_cursos,
+        }
+        return render(request, "cenecu_admin/reporte_usuario_solicitud.html", context)
+    else:
+        return redirect('/login/')
+
+
+def reporte_curso_compartido(request,pk):
+    if(request.user.is_authenticated):
+        idcurso = pk 
+        dict_curso_red_compartida = {}
+        lista_red_numerocompartido = []
+        nombre_curss = (Curso.objects.get(pk= idcurso).nombre)
+        num_comp_tw  = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='tw').count()
+        num_comp_fb = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='fb').count()
+        num_comp_wa = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='wa').count()
+        lista_red_numerocompartido = [num_comp_tw,num_comp_fb,num_comp_wa]
+        dict_curso_red_compartida[nombre_curss] = lista_red_numerocompartido
+        print(dict_curso_red_compartida)
+        context = {
+            'dict_curso_red_compartida': dict_curso_red_compartida,
+        }
+
+        return render(request, "cenecu_admin/reporte_curso_red.html", context)
+    else:
+        return redirect('/login/')
+
+def visualizar_reporte_compartido(request):
+    if (request.user.is_authenticated):
+        listaCursos = Curso.objects.all()
+        context ={
+            'listaCursos':listaCursos,
+        }
+        return render(request, "cenecu_admin/seleccion_curso.html", context)
+    else:
+        return redirect('/login/')
+
+
+
+
+
+def exportar_repo(request):
+    if (request.user.is_authenticated):
+
+
+        tipo = request.GET.get('tipoRepo')
+        
+        reporte = xlsxwriter.Workbook("media/reportes/reporte_cenecu.xlsx")
+        reporte.title = "test"
+        worksheet = reporte.add_worksheet()
+        worksheet.write('A1', 'Reporte: Cantidad de Usuarios por Áreas de Interés')
+        chart = reporte.add_chart({'type': 'column'})
+        data = [
+                [1, 2, 3, 4, 5],
+                [2, 4, 6, 8, 10],
+                [3, 6, 9, 12, 15],
+            ]
+
+        worksheet.write_column('A2', data[0])
+        worksheet.write_column('B2', data[1])
+        worksheet.write_column('C2', data[2])
+
+        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
+        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
+        chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+        worksheet.insert_chart('A7', chart)
+        reporte.close()
+
+        data = {'ok': 'ok' }
+        return JsonResponse(data)
+    else:
+        return redirect('/login/')
 
 def ajaxReporteCompartido(request):
     lista_area = list(Area.objects.all())

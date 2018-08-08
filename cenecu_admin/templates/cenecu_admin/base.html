@@ -21,6 +21,11 @@
     <link href="{% static 'css/lib/owl.theme.default.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/helper.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {% block extraStyle %}{% endblock %}
 </head>
 
@@ -152,7 +157,7 @@
                         </span></a></li>
                         <li> <a class="has-arrow  " href="{% url 'listar_areas' %}" aria-expanded="false"><i class="fa fa-object-group"></i><span class="hide-menu">Áreas de Interés
                         </span></a></li>
-                        <li> <a class="has-arrow  " href="{% url 'listar_anuncios' %}" aria-expanded="false"><i class="fa fa-bullhorn"></i><span class="hide-menu">Anuncios
+                        <li> <a class="has-arrow  " href="{% url 'listar_anuncios' %}" aria-expanded="false"><i class="fa fa-bullhorn"></i><span class="hide-menu">Anuncios Publicitarios
                         </span></a>
                         </li>
                         <li> <a class="has-arrow  " href="{% url 'listar_frases' %}" aria-expanded="false"><i class="fa fa-photo"></i><span class="hide-menu">Frases Motivacionales
@@ -175,7 +180,7 @@
         </div>
         <!-- FINAL DE CUERPO DE PAGINA --->
         <!-- footer -->
-            <footer class="footer"> © 2018 Cenecú. Todos los derechos reservados. Template designed by <a href="https://colorlib.com">Colorlib</a></footer>
+       
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->

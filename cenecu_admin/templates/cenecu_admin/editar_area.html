@@ -4,20 +4,21 @@
 {% block contenido %}
 <!-- Permite la edicion de la información de una nueva area de interes -->
 <div class="card">
-  <h2>  Editar área de interés </h2>
+  <h2>Editar área de interés</h2>
   
   <!-- Campos de la información de una nueva area de interes -->
   <div class="card-body">
     <div class="form-validation">
-      <form class="form-valide" action="{% url 'modificar_area' %}" 
+      <form id="nuevoArea-form" class="form-valide" action="{% url 'modificar_area' %}" 
         method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
         <div class="form-group row">
           <label class="col-lg-4 col-form-label" for="nombreArea">
             Nombre<span class="text-danger">*</span></label>
           <div class="col-lg-6">
-            <input type="text" class="form-control texto" id="nombreArea" 
-              name="nombreArea" value="{{ nombre }}" maxlength="20" required>
+            <input type="text" class="form-control letras" id="nombreArea" 
+              name="nombreArea" value="{{ nombre }}" maxlength="30"
+              required onkeydown="validarLetras(event)">
           </div>
         </div>
 
@@ -25,11 +26,11 @@
           <label class="col-lg-4 col-form-label" for="descripcion">
             Descripción<span class="text-danger">*</span></label>
           <div class="col-lg-6">
-            <input type="textarea"  style=" height: 100px;" rows="10" 
-            cols="50" class="form-control" id="descripcion" name="descripcion"
-            value="{{ descripcion }}" maxlength="255"
-            required onkeydown="validarDescripcionArea(event)" 
-            autocomplete="off">
+            <textarea style=" height: 100px;" rows="10" 
+            cols="50" class="form-control alfanumerico" id="descripcion"
+            name="descripcion" maxlength="256" 
+            placeholder="Ingrese la descripción del anuncio" 
+            required onkeydown="validarLetrasNumeros(event)">{{ descripcion }}</textarea>
           </div>
         </div>
 
@@ -43,7 +44,7 @@
           </div>
         </div>
         
-        <div class="form-group row">
+        <div class="form-group row" hidden>
           <label class="col-lg-4 col-form-label" for="estado">
             Estado<span class="text-danger">*</span></label>
           <div class="col-lg-6">
@@ -63,7 +64,8 @@
         <!-- Boton para guardar la informacion editada -->
         <div class="form-group row">
           <div class="col-lg-8 ml-auto">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="resetForm()">Limpiar</button>
           </div>
         </div>
 
@@ -72,32 +74,7 @@
   </div>
 </div>
 {% endblock %}
+
 {% block extraScript %}
-<script type="text/javascript">
-
-  function validarDescripcionArea(event){
-    var area = document.getElementById('descripcion').value;
-    var key = event.key;            // Obtengo la tecla que presiono
-    var keyCode = event.keyCode;    // Obtengo el codigo de la tecla
-    
-    expresion = /([a-zA-Z]+)([a-zA-Z0-9]*)/g;
-    resultado = expresion.test(area+key);
-    
-    if(resultado == true && area.length < 255){
-        console.log("correcto");
-    } else {
-        event.preventDefault();
-    } 
-  }
-
-  function validarFormatoImagen(){
-    var extensionImagenes = /(.jpg|.jpeg|.png)$/i;
-    var imagen = document.getElementById('img_area');
-    var archivo = imagen.value;
-    if(!extensionImagenes.test(archivo)){
-        console.log(archivo);
-        alert("El formato de la imagen no es válido");
-    }
-  }
-</script>
+  <script src="/static/js/scripts/areas.js"></script>
 {% endblock %}

@@ -412,7 +412,8 @@ def notas_por_user(request, pk):
     lista_notas = []
     notas_user = Nota.objects.all().filter(usuario_id = pk)
     for nota in notas_user:
-        lista_notas.append(model_to_dict(nota))
+        if nota.estado == 'activo':
+            lista_notas.append(model_to_dict(nota))
 
     return Response(lista_notas)
 
@@ -424,8 +425,23 @@ def borrar_nota(request, pk):
     ''' 
     nota_borrar = Nota.objects.get(id = pk)
     if nota_borrar is not None:
-        nota_borrar.delete()
+        nota_borrar.estado = 'eliminada'
+        nota_borrar.save()
         return Response({'msg': 'La nota se eliminó con exito'})
+    else:
+        return Response({'msg': 'err'})
+
+
+@api_view(['GET'])
+def cumplir_nota(request, pk):
+    '''
+    function of views.py
+    ''' 
+    nota_cumplida = Nota.objects.get(id = pk)
+    if nota_cumplida is not None:
+        nota_cumplida.estado = 'cumplida'
+        nota_cumplida.save()
+        return Response({'msg': 'nota cumplida'})
     else:
         return Response({'msg': 'err'})
 
@@ -468,9 +484,22 @@ def log_out(request):
     ''' 
     logout(request)
     return Response({'msg': 'logOut'})
+    
+    
+@api_view(['GET'])
+def horarios_por_curso(request, pk):
+    '''
+    function of views.py
+    ''' 
+    lista_horario = []
+    notas_por_curso = Horario.objects.all().filter(curso_id = pk)
+    for horario in notas_por_curso:
+        lista_horario.append(model_to_dict(horario))
+
+    return Response(lista_horario)
 
 
 @api_view(['GET'])
 def get_user(request):
     usuario = request.user
-    return Response(model_to_dict(usuario))    
+    return Response(model_to_dict(usuario))

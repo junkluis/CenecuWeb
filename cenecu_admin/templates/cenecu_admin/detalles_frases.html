@@ -1,72 +1,95 @@
 {% extends "cenecu_admin/base.html" %}
 {% load static %}
 {% block titulo %}Frases Motivacionales{% endblock %}
+{% block extraStyle %}
+<style type="text/css">
+
+  .info-frases button  {
+     float: right;
+     margin-top: 10px;
+  }
+
+</style>
+
+{% endblock %}
 {% block contenido %}
-<!-- Bread crumb -->
-<!-- End Bread crumb -->
-<!-- Container fluid  -->
-<div class="card">
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-info alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" 
-          aria-label="close">&times;</a>
-        <p class="{{ message.tags }}" align="center">
-          {% if message.tags %} {% endif %}{{ message }}</p>
-      </div>
-    {% endfor %}
-  {% endif %}
 
-  <!-- Muestra una lista de frases motivacionales -->
-  <div class="row">
-    <div class="col-lg-6">
-      <h2>Detalle de Frases Motivacionales</h2>
-    </div> 
-
-    <div id="container-boton">
-      <a href="/crearFrase"><button style="margin-right:0px;" 
-        type="button" id="nuevo-boton"class="btn btn-info"
-        data-title="Nuevo" data-target="#nuevo">Nuevo</button>
-    </div>
-  </div>
-  
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Editar</th>
-        <th scope="col">Eliminar </th>
-      </tr>
-    </thead>
-    
-    <tbody>
-      <!-- Informacion de una frase motivacional-->
-      {% for frase in frases %}
-        <tr>
-          <th scope="row"> {{forloop.counter}}</th>
-            <td>{{frase.descripcion}}</td>
-            <td>{{frase.fecha_creado}}</td>
-            <td><p style="color:#31c634;"> {{frase.estado}}</p></td>
-            
-            <!-- Boton para editar la informacion de una frase motivacional-->
-            <td><a href="/editarFrase/{{frase.pk}}">
-              <p  title="Editar"><button type="button" class="btn btn-info" 
-                data-title="Editar" data-target="#editar" >
-                <span class="fa fa-edit"></span></button></p></td></a>
-            
-            <!--Boton para eliminar la informacion de una frase motivacional-->
-            <td><a href="/eliminarFrase/{{frase.pk}}">
-              <p title="Eliminar"><button  type="button" 
-                class="btn btn-danger" data-title="Eliminar" 
-                data-target="#eliminar" ><span class="fa fa-trash"></span>
-                </button></p></td></a> 
-        </tr>
+<!-- Contenido -->
+<div class="col-lg-12">
+  <div class="card">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info alert-dismissible">
+          <a href="#" class="close" data-dismiss="alert" 
+            aria-label="close">&times;</a>
+          <p class="{{ message.tags }}" align="center">
+            {% if message.tags %} {% endif %}{{ message }}</p>
+        </div>
       {% endfor %}
-    </tbody>
-  </table>         
+    {% endif %}
+
+    <!-- Muestra una lista de frases motivacionales -->
+    <div class="info-frases">
+      <div class="col-sm-9">
+        <h2>Detalle de Frases Motivacionales</h2>
+        <p>Muestra la información de las frases motivacionales creadas y permite crear nuevas.</p>
+        <br />
+        <br />
+      </div> 
+
+      <div class="boton-nuevo">
+        <a href="/crearFrase"><button 
+          type="button" id="nuevo-boton"class="btn btn-success"
+          data-title="Nuevo" data-target="#nuevo">Nuevo</button>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Editar</th>
+          <th scope="col">Eliminar </th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <!-- Información de una frase motivacional-->
+        {% for frase in frases %}
+          <tr>
+            <th scope="row"> {{forloop.counter}}</th>
+              <td>{{frase.descripcion}}</td>
+              <td>{{frase.fecha_creado}}</td>
+              
+              <!-- Botón para editar la información de una frase motivacional-->
+              <td>
+                <a href="/editarFrase/{{frase.pk}}">
+                  <p  title="Editar"><button type="button" class="btn btn-primary" 
+                  data-title="Editar" data-target="#editar" >
+                  <span class="fa fa-edit"></span></button></p>
+                </a>
+              </td>
+              
+              <!--Botón para eliminar la información de una frase motivacional-->
+              <td>
+                <a href="/eliminarFrase/{{frase.pk}}">
+                  <p title="Eliminar"><button  type="button" 
+                  class="btn btn-danger" data-title="Eliminar" 
+                  data-target="#eliminar" ><span class="fa fa-trash"></span>
+                  </button></p>
+                </a>
+              </td> 
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>    
+    </div>     
+  </div>
 </div>
 {% endblock %}
 

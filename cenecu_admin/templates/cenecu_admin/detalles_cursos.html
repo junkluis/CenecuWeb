@@ -1,10 +1,25 @@
 {% extends "cenecu_admin/base.html" %}
 {% load static %}
 {% block titulo %}Curso{% endblock %}
+{% block extraStyle %}
+
+<style type="text/css">
+
+    .info-curso button  {
+       float: right;
+       margin-top: 10px;
+    }
+
+    
+
+ </style>
+
+
+{% endblock %}
 {% block contenido %}
-  <!-- Bread crumb -->
-  <!-- End Bread crumb -->
-  <!-- Container fluid  -->
+
+  
+<!-- Contenido -->
 <div class="col-lg-12">
   <div class="card">
       <!-- Mostrar mensajes de operaciones CRUD -->
@@ -16,39 +31,58 @@
                 </div>
           {% endfor %}
       {% endif %}
-      <!-- Mostrar informacion de cursos -->
-      <div class="row">
-          <div class="col-sm-4">
+      <!-- Mostrar información de cursos -->
+      <div class="info-curso">
+          <div class="col-sm-9">
               <h2>Detalle de Cursos</h2>
-          </div> 
-          <div  class="col-sm-8" style="align-content: right; margin-right: 0;" >
-              <a href="/crearCurso"><button style="margin-right: : 0px;" type="button" id="nuevo-boton"class="btn btn-info" data-title="Nuevo" data-target="#nuevo">Nuevo</button>
+              <p>Muestra la información de los cursos creados y permite crear nuevos.</p>
+              <br />
+              <br />
+          </div>
+          
+          <div class="boton-nuevo">
+            <a href="/crearCurso"><button 
+              type="button" id="nuevo-boton"class="btn btn-success"
+              data-title="Nuevo" data-target="#nuevo">Nuevo</button>
+            </a> 
           </div>
       </div>
-      <table class="table table-hover">
+
+  <div class="table-responsive">
+    <table class="table table-hover">
           <thead>
               <tr>
                   <th scope="col">#</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Descripción</th>
-                  <th scope="col">Estado</th>
                   <th scope="col">Editar</th>
                   <th scope="col">Eliminar </th>
               </tr>
           </thead>
           <tbody>
-              <!-- Muestro los cursos, descripcion -->
+              <!-- Muestro los cursos, descripción -->
               {% for curso in cursos %}
-              <tr>
-                <th scope="row"> {{forloop.counter}}</th>
-                <td> {{curso.nombre}}</td>
-                <td> {{curso.descripcion}}</td>
-                <td><p style="color:#31c634;">{{curso.estado}}</p></td>
-                <!-- Boton para editar curso -->
-                <td><a href="/editarCurso/{{curso.pk}}"><p  title="Editar"><button type="button" class="btn btn-info" data-title="Editar" data-target="#editar" ><span class="fa fa-edit"></span></button></p></td> </a>
-                <!--Boton eliminar curso -->
-                <td><a href="/eliminarCurso/{{curso.pk}}"><p  title="Eliminar"><button  type="button" class="btn btn-danger" data-title="Eliminar" data-target="#eliminar" ><span class="fa fa-trash"></span></button></p></td></a> 
-              </tr>
+                {% if curso.estado == "Activo" %}
+                  <tr>
+                  <th scope="row"> {{forloop.counter}}</th>
+                  <td> {{curso.nombre}}</td>
+                  <td> {{curso.descripcion}}</td>
+                  <!-- Botón para editar curso -->
+                  <td>
+                    <a href="/editarCurso/{{curso.pk}}">
+                      <p  title="Editar"><button type="button" class="btn btn-primary" data-title="Editar" data-target="#editar" ><span class="fa fa-edit"></span></button></p>
+                    </a>
+                  </td>   
+                  <!--Botón eliminar curso -->
+                  <td>
+                    <a href="/eliminarCurso/{{curso.pk}}">
+                      <p  title="Eliminar"><button  type="button" class="btn btn-danger" data-title="Eliminar" data-target="#eliminar" ><span class="fa fa-trash"></span></button></p>
+                    </a> 
+                  </td>  
+                </tr>
+
+                {% endif %}
+                
               {% endfor %}
           </tbody>
       </table>         

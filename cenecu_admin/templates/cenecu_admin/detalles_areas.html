@@ -36,14 +36,14 @@
     
 
     <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover" id="areaTable">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
           <th scope="col">Descripción</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Eliminar </th>
+          <th scope="col"  width="60px">Editar</th>
+          <th scope="col"  width="60px">Eliminar </th>
         </tr>
       </thead>
       
@@ -80,4 +80,16 @@
     </div>     
   </div>
 </div>
+{% endblock %}
+
+{% block extraScript %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('table#areaTable').DataTable({
+              "ordering": false,
+            });
+        } );
+    </script>
+  
 {% endblock %}

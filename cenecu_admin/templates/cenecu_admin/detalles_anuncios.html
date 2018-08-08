@@ -35,15 +35,15 @@
     </div>
     
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover" id="anuncioTable">
         <thead>
           <tr>
             <th>#</th>
             <th>Descripción</th>
             <th>Fecha Creado</th>
             <th>Fecha Límite</th>
-            <th>Editar</th>
-            <th>Eliminar </th>
+            <th  width="60px">Editar</th>
+            <th  width="60px">Eliminar </th>
           </tr>
         </thead>
         
@@ -84,3 +84,14 @@
 </div>
 {% endblock %}
 
+{% block extraScript %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('table#anuncioTable').DataTable({
+              "ordering": false,
+            });
+        } );
+    </script>
+  
+{% endblock %}

@@ -35,15 +35,15 @@
     </div>
     
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover" id="profesorTable">
 
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombres</th>
           <th scope="col">Título</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Eliminar </th>
+          <th scope="col" width="60px">Editar</th>
+          <th scope="col" width="60px">Eliminar </th>
         </tr>
       </thead>
       
@@ -81,3 +81,14 @@
 </div>
 {% endblock %}
 
+{% block extraScript %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('table#profesorTable').DataTable({
+              "ordering": false,
+            });
+        } );
+    </script>
+  
+{% endblock %}

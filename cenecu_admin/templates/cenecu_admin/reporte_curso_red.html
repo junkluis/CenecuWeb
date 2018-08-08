@@ -178,9 +178,43 @@
                     });
                 </script>
         </div>
+
+    <div class="rep-div rep-tabla">
+                <div class="tabla-repo">
+
+            <table id="AreasDeInteres" class="displa table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Área de Interés</th>
+                        <th>Cantidad de estudiante</th>
+                        <th>Porcentaje de estudiante</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {% for value in dict_info_tabla %}
+                    <tr>
+                        <td> <i class="fa {{value.icono}} fa-3x"></i></td>
+                        <td>{{value.cantidad}}</td>
+                        <td>{{value.porcentaje|floatformat:2}} % </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Área de Interés</th>
+                        <th>Cantidad de estudiante</th>
+                        <th>Porcentaje de estudiante</th>
+                    </tr>
+                </tfoot>
+            </table>
+                    
+                </div>
+            </div>
+
 {% endblock %}
 
 {% block extraScript %}
+
 <script src="{% static 'js/reporte.js' %}"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>

@@ -65,8 +65,8 @@
                 {% if curso.estado == "Activo" %}
                   <tr>
                   <th scope="row"> {{forloop.counter}}</th>
-                  <td> {{curso.nombre}}</td>
-                  <td> {{curso.descripcion}}</td>
+                  <td>{{curso.nombre}}</td>
+                  <td>{{curso.descripcion}}</td>
                   <!-- Botón para editar curso -->
                   <td>
                     <a href="/editarCurso/{{curso.pk}}">

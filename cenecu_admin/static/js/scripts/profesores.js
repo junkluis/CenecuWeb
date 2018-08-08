@@ -32,24 +32,34 @@ function validarLetrasNumerosBiografia(event){
     }
   }
 
-  function validarLetrasNumerosFrase(event){
-    var frase_personal = document.getElementById('frases_personal').value;
-    var key = event.key;            // Obtengo la tecla que presiono
-    var keyCode = event.keyCode;    // Obtengo el codigo de la tecla
-    
-    expresion = /([A-Za-záéíóúÁÉÍÓÚñÑ´]+)/;
-    expresion2 = /[A-Za-z0-9áéíóúÁÉÍÓÚñÑ´\s\.\',']+$/;
-    
-    if(expresion.test(frase_personal+key) == true && 
-      expresion2.test(frase_personal+key) == true && 
-      frase_personal.length < 200){
-        console.log("correcto");
-    } else {
-      alert("- El primer caracter deber ser una letra." +
-      "\n- Este campo permite solo permite letras y números.");
-      event.preventDefault();
-    }
+function validarLinkedin(event) {
+  linkedin_url =  document.getElementById('url_linkedin').value;
+
+  if(/(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(linkedin_url)){
+    console.log("URL LinkedIn correcta");
+  } else {
+    alert("Este campo solo permite una URL de usuario de LinkedIn.");
   }
+}
+
+function validarLetrasNumerosFrase(event){
+  var frase_personal = document.getElementById('frases_personal').value;
+  var key = event.key;            // Obtengo la tecla que presiono
+  var keyCode = event.keyCode;    // Obtengo el codigo de la tecla
+  
+  expresion = /([A-Za-záéíóúÁÉÍÓÚñÑ´]+)/;
+  expresion2 = /[A-Za-z0-9áéíóúÁÉÍÓÚñÑ´\s\.\',']+$/;
+  
+  if(expresion.test(frase_personal+key) == true && 
+    expresion2.test(frase_personal+key) == true && 
+    frase_personal.length < 200){
+      console.log("correcto");
+  } else {
+    alert("- El primer caracter deber ser una letra." +
+    "\n- Este campo permite solo permite letras y números.");
+    event.preventDefault();
+  }
+}
 
 function validarFormatoArchivo() {
 	var extensionArchivo = /(.pdf)$/i;

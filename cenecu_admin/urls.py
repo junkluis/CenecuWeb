@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^reporteSolicitud/$', views.reporte_user_solicitud_registro, name='reporte_solicitud'),
     url(r'^refresh/$', views.ajaxReporteCompartido, name='ajaxReporteCompartido'),
     url(r'^seleccionCurso/$', views.visualizar_reporte_compartido, name='visualizar_reporte_compartido'),
+    url(r'^seleccionCurso/(?P<pk>[0-9]+)$', views.reporte_curso_compartido, name='reporte_curso_compartido'),    
     url(r'^reporteCurso/(?P<pk>[0-9]+)$', views.reporte_curso_compartido, name='reporte_curso_compartido'),
     url(r'^exportarReporte/$',views.exportar_repo, name='exportar_reporte'),
     url(r'^logout/$',views.cerrar_sesion, name='cerrar_sesion'),

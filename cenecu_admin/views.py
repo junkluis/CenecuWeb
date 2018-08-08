@@ -608,7 +608,6 @@ def visualizar_reporte (request):
     else:
         return redirect('/login/')
 
-
 def visualizar_reporte (request):
     """Genera mapas para visualizar graficos """
     if (request.user.is_authenticated):
@@ -655,16 +654,21 @@ def visualizar_reporte (request):
         return redirect('/login/')
 
 def reporte_user_area_interes(request):
+    """Genera el reporte de áreas de interes de los usuarios"""
     if(request.user.is_authenticated):
         lista_area = list(Area.objects.all())
         lista_curso = list(Curso.objects.all())
         numeroareas=len((lista_area))
         dict_curso_numerointeres = {}
+        usuarios = 0
         while (numeroareas !=0):
             idarea = lista_area[numeroareas-1].id
             nombreArea = (Area.objects.get(pk = idarea).nombre)
-            dict_curso_numerointeres[nombreArea] = AreaInteres.objects.filter(area_id=idarea).count()
+            dict_curso_numerointeres[nombreArea] = {'cantidad': AreaInteres.objects.filter(area_id=idarea).count()}
+            usuarios = usuarios + AreaInteres.objects.filter(area_id=idarea).count()
             numeroareas = numeroareas -1
+        for key , valor in dict_curso_numerointeres.items():
+            dict_curso_numerointeres[key]['porcentaje'] =  valor['cantidad'] *100 /usuarios  
         context = {
             'dict_curso_numerointeres' : dict_curso_numerointeres,
         }
@@ -690,6 +694,7 @@ def reporte_user_solicitud_registro(request):
         context ={
             'dict_curso_numregistro': dict_curso_numregistro,
             'total_cursos': total_cursos,
+            'dict_info_tabla':RegistroUsuarioCurso.objects.all(),
         }
         return render(request, "cenecu_admin/reporte_usuario_solicitud.html", context)
     else:
@@ -705,11 +710,15 @@ def reporte_curso_compartido(request,pk):
         num_comp_tw  = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='tw').count()
         num_comp_fb = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='fb').count()
         num_comp_wa = ContenidoCompartido.objects.filter(curso_id=idcurso).filter(red_social='wa').count()
+        total = num_comp_wa + num_comp_tw + num_comp_fb
         lista_red_numerocompartido = [num_comp_tw,num_comp_fb,num_comp_wa]
         dict_curso_red_compartida[nombre_curss] = lista_red_numerocompartido
-        print(dict_curso_red_compartida)
+        dict_info_tabla = [{'icono':'fa-twitter','cantidad':num_comp_tw, 'porcentaje':num_comp_tw*100/total if total > 0 else 0}]
+        dict_info_tabla.append({'icono':'fa-facebook-f','cantidad':num_comp_fb, 'porcentaje':num_comp_fb*100/total if total > 0 else 0})
+        dict_info_tabla.append({'icono':'fa-whatsapp','cantidad': num_comp_wa, 'porcentaje':num_comp_wa*100/total if total > 0 else 0})
         context = {
             'dict_curso_red_compartida': dict_curso_red_compartida,
+            'dict_info_tabla' :dict_info_tabla,
         }
 
         return render(request, "cenecu_admin/reporte_curso_red.html", context)

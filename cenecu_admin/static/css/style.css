@@ -18,7 +18,11 @@
 #nuevo-boton {
   position: relative;
   right: 2.5%;  
+  float: right;
+  margin-top: 10px;
 }
+
+
 
 #container-boton {
   margin-right: 0;
@@ -31,6 +35,14 @@
 #descripcion {
   height: 100px;
 }
+
+#detalle {
+    background-color: transparent;
+    border: 1px solid transparent;
+    width: 100%;
+    height: 100%;
+}
+
 
 /*
     Template: Ela Admin
@@ -107,7 +119,8 @@
 #img_frase,
 #img_perfil,
 #area_especializacion,
-#curriculum {
+#curriculum,
+#curso {
   height: auto;
 }
 

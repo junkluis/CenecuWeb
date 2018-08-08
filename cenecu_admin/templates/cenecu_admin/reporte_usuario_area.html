@@ -71,7 +71,7 @@
 			            labels: [{% for d in dict_curso_numerointeres %} "{{ d }}", {% endfor %}],
 			            datasets: [{
 			                label: '# Usuarios Interesados',
-			                data: [{% for d in dict_curso_numerointeres.values %} {{ d }}, {% endfor %}],
+			                data: [{% for d in dict_curso_numerointeres.values %} {{ d.cantidad }}, {% endfor %}],
 			                backgroundColor: [
 			                    'rgba(255, 99, 132, 0.2)',
 			                    'rgba(54, 162, 235, 0.2)',
@@ -105,44 +105,35 @@
 			        </script>   
 			</div>
 			<div class="rep-div rep-tabla">
-			    <div class="tabla-repo">
+			  <div class="tabla-repo">
 
-			<table id="AreasDeInteres" class="displa table table-striped table-bordered" style="width:100%">
-			    <thead>
-			        <tr>
-			            <th>Nombre</th>
-			            <th>Curso</th>
-			            <th>Sucursal</th>
-			            <th>Área de Interés</th>
-			            <th>Fecha</th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			    		
-			  		{% for u in lista_usuarios %}
-			        <tr>
-			        	<td></td>
-			        	<td></td>
-			        	<td></td>
-			        	<td></td>
-			        	<td></td>
-
-			        </tr>
-			        {% endfor %}
+				<table id="AreasDeInteres" class="displa table table-striped table-bordered" style="width:100%">
+				    <thead>
+				        <tr>
+				            <th>Área de Interés</th>
+				            <th>Cantidad de estudiante</th>
+				            <th>Porcentaje de estudiante</th>
+				        </tr>
+				    </thead>
+				    <tbody>	
+				  		{% for area, valor in dict_curso_numerointeres.items %}
+				        <tr>
+				        	<td>{{area}}</td>
+				        	<td>{{valor.cantidad}}</td>
+				        	<td>{{valor.porcentaje|floatformat:2}} % </td>
+				        </tr>
+				        {% endfor %}
+				    </tbody>
+				    <tfoot>
+				        <tr>
+				            <th>Área de Interés</th>
+				            <th>Cantidad de estudiante</th>
+				            <th>Porcentaje de estudiante</th>
+				        </tr>
+				    </tfoot>
+				</table>
 			        
-			    </tbody>
-			    <tfoot>
-			        <tr>
-			            <th>Nombre</th>
-			            <th>Curso</th>
-			            <th>Sucursal</th>
-			            <th>Área de Interés</th>
-			            <th>Fecha</th>
-			        </tr>
-			    </tfoot>
-			</table>
-			        
-			    </div>
+			  </div>
 			</div>
 			<div class="rep-div rep-expo">
 			    <p>
@@ -152,17 +143,18 @@
 		</div>
 	</div>
 </div>
-		{% endblock %}
-		{% block extraScript %}
-		<script src="{% static 'js/reporte.js' %}"></script>
-		<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+{% endblock %}
+{% block extraScript %}
 
-		<script type="text/javascript">
-		    $(document).ready(function() {
-		        $('table#AreasDeInteres').DataTable();
-		    } );
-		</script>
+<script src="{% static 'js/reporte.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('table#AreasDeInteres').DataTable();
+    } );
+</script>
 
 {% endblock %}
 

@@ -105,9 +105,47 @@
                         </script>  
                        {% endif %} 
                 </div>
+                <BR>
                 <div class="rep-div rep-tabla">
-                    <h1>Falta implementar tabla de datos</h1>
+                    <div class="tabla-repo">
+                        <table id="AreasDeInteres" class="displa table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Usuario</th>
+                                    <th>teléfono</th>
+                                    <th>email</th>
+                                    <th>fecha solicitud</th>
+                                    <th>Curso</th>
+
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                {% for registro in dict_info_tabla %}
+                                <tr>
+                                    <td>{{registro.usuario_id.id}}</td>
+                                    <td>{{registro.usuario_id.username}}</td>
+                                    <td>{% for telefono in registro.usuario_id.telefonos_set.all %}
+                                         {{telefono.telefonos}},
+                                        {% endfor %}</td>
+                                    <td>{{registro.usuario_id.email}}</td>
+                                    <td>{{registro.usuario_id.date_joined}} </td>
+                                    <td>{{registro.curso_id.nombre}} </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Usuario</th>
+                                    <th>teléfono</th>
+                                    <th>email</th>
+                                    <th>fecha solicitud</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                 </div>
+            </div>
                 <div class="rep-div rep-expo">
                     <p>
                         <button type="button" class="btn btn-success">Exportar Reporte</button>
@@ -118,15 +156,16 @@
  </div>
 {% endblock %}
 {% block extraScript %}
-<script src="{% static 'js/reporte.js' %}"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('table#AreasDeInteres').DataTable();
-    } );
-</script>
+    <script src="{% static 'js/reporte.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('table#AreasDeInteres').DataTable();
+        } );
+    </script>
 
 {% endblock %}
 

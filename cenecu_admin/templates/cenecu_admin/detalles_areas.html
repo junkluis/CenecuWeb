@@ -50,30 +50,33 @@
       <tbody>
         <!-- Información de un áreas de interés-->
         {% for area in areas %}
-          <tr>
-            <th scope="row"> {{forloop.counter}}</th>
-              <td>{{area.nombre}}</td>
-              <td>{{area.descripcion}}</td>
-              
-              <!-- Botón para editar la información de un área de interés-->
-              <td>
-                <a href="/editarArea/{{area.pk}}">
-                  <p  title="Editar"><button type="button" class="btn btn-primary" 
-                  data-title="Editar" data-target="#editar" >
-                  <span class="fa fa-edit"></span></button></p>
-                </a>
-              </td>
-              
-              <!--Botón para eliminar información de un área de interés -->
-              <td>
-                <a href="/eliminarArea/{{area.pk}}">
-                  <p title="Eliminar"><button  type="button" 
-                  class="btn btn-danger" data-title="Eliminar" 
-                  data-target="#eliminar" ><span class="fa fa-trash"></span>
-                  </button></p>
-                </a>
-              </td> 
-          </tr>
+          {% if area.estado == "Activo" %}
+            <tr>
+              <th scope="row"> {{forloop.counter}}</th>
+                <td>{{area.nombre}}</td>
+                <td>{{area.descripcion}}</td>
+                
+                <!-- Botón para editar la información de un área de interés-->
+                <td>
+                  <a href="/editarArea/{{area.pk}}">
+                    <p  title="Editar"><button type="button" class="btn btn-primary" 
+                    data-title="Editar" data-target="#editar" >
+                    <span class="fa fa-edit"></span></button></p>
+                  </a>
+                </td>
+                
+                <!--Botón para eliminar información de un área de interés -->
+                <td>
+                  <a href="/eliminarArea/{{area.pk}}" class="delete"
+                    data-confirm="¿Está seguro de que desea eliminar esta área?">
+                    <p title="Eliminar"><button  type="button" 
+                    class="btn btn-danger" data-title="Eliminar" 
+                    data-target="#eliminar"><span class="fa fa-trash"></span>
+                    </button></p>
+                  </a>
+                </td> 
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
       </table>    
@@ -83,13 +86,5 @@
 {% endblock %}
 
 {% block extraScript %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('table#areaTable').DataTable({
-              "ordering": false,
-            });
-        } );
-    </script>
-  
+  <script src="/static/js/scripts/areas.js"></script>
 {% endblock %}

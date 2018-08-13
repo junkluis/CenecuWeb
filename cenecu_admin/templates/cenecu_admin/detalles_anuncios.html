@@ -39,7 +39,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Descripción</th>
+            <th><textarea id="detalle">Descripción</textarea></th>
             <th>Fecha Creado</th>
             <th>Fecha Límite</th>
             <th  width="60px">Editar</th>
@@ -50,32 +50,35 @@
         <tbody>
           <!-- Información de un anuncio-->
           {% for anuncio in anuncios %}
-            <tr>
-              <th scope="row"> {{forloop.counter}}</th>
-              <td>{{anuncio.descripcion}}</td>
-              <td>{{anuncio.fecha_creado}}</td>
-              <td>{{anuncio.fecha_limite}}</td>
-              
-              
-              <!-- Botón para editar la información de un anuncio -->
-              <td>
-                <a href="/editarAnuncio/{{anuncio.pk}}">
-                  <p  title="Editar"><button type="button" class="btn btn-primary" 
-                  data-title="Editar" data-target="#editar" >
-                  <span class="fa fa-edit"></span></button></p>
-                </a>
-              </td>    
-              
-              <!-- Botón para eliminar anuncio -->
-              <td>
-                <a href="/eliminarAnuncio/{{anuncio.pk}}">
-                  <p title="Eliminar"><button  type="button" 
-                  class="btn btn-danger" data-title="Eliminar" 
-                  data-target="#eliminar" ><span class="fa fa-trash"></span>
-                  </button></p>
-                </a> 
-              </td>
-            </tr>
+            {% if anuncio.estado == "Activo" %}
+              <tr>
+                <th scope="row"> {{forloop.counter}}</th>
+                <td>{{anuncio.descripcion}}</td>
+                <td>{{anuncio.fecha_creado}}</td>
+                <td>{{anuncio.fecha_limite}}</td>
+                
+                
+                <!-- Botón para editar la información de un anuncio -->
+                <td>
+                  <a href="/editarAnuncio/{{anuncio.pk}}">
+                    <p  title="Editar"><button type="button" class="btn btn-primary" 
+                    data-title="Editar" data-target="#editar" >
+                    <span class="fa fa-edit"></span></button></p>
+                  </a>
+                </td>    
+                
+                <!-- Botón para eliminar anuncio -->
+                <td>
+                  <a href="/eliminarAnuncio/{{anuncio.pk}}" class="delete"
+                    data-confirm="¿Está seguro de que desea eliminar este anuncio?">
+                    <p title="Eliminar"><button  type="button" 
+                    class="btn btn-danger" data-title="Eliminar" 
+                    data-target="#eliminar"><span class="fa fa-trash"></span>
+                    </button></p>
+                  </a> 
+                </td>
+              </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>         
@@ -85,13 +88,5 @@
 {% endblock %}
 
 {% block extraScript %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('table#anuncioTable').DataTable({
-              "ordering": false,
-            });
-        } );
-    </script>
-  
+    <script src="/static/js/scripts/anuncios.js"></script>
 {% endblock %}

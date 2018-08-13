@@ -13,8 +13,9 @@
 			<br>
 			<select class="form-control" id="curso" name="curso" >
 			{% for curso in listaCursos %} 
-				
-					 <option value="{{curso.pk}}"> {{curso.nombre}}</option>
+					 {% if curso.estado == "Activo"  %}
+					 	<option value="{{curso.pk}}"> {{curso.nombre}}</option>
+					  {% endif %} 
 				
 			{% endfor %}
 

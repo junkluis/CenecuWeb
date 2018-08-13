@@ -50,30 +50,33 @@
       <tbody>
         <!-- Información de una frase motivacional-->
         {% for frase in frases %}
-          <tr>
-            <th scope="row"> {{forloop.counter}}</th>
-              <td>{{frase.descripcion}}</td>
-              <td>{{frase.fecha_creado}}</td>
-              
-              <!-- Botón para editar la información de una frase motivacional-->
-              <td>
-                <a href="/editarFrase/{{frase.pk}}">
-                  <p  title="Editar"><button type="button" class="btn btn-primary" 
-                  data-title="Editar" data-target="#editar" >
-                  <span class="fa fa-edit"></span></button></p>
-                </a>
-              </td>
-              
-              <!--Botón para eliminar la información de una frase motivacional-->
-              <td>
-                <a href="/eliminarFrase/{{frase.pk}}">
-                  <p title="Eliminar"><button  type="button" 
-                  class="btn btn-danger" data-title="Eliminar" 
-                  data-target="#eliminar" ><span class="fa fa-trash"></span>
-                  </button></p>
-                </a>
-              </td> 
-          </tr>
+          {% if frase.estado == "Activo" %}
+            <tr>
+              <th scope="row"> {{forloop.counter}}</th>
+                <td>{{frase.descripcion}}</td>
+                <td>{{frase.fecha_creado}}</td>
+                
+                <!-- Botón para editar la información de una frase motivacional-->
+                <td>
+                  <a href="/editarFrase/{{frase.pk}}">
+                    <p  title="Editar"><button type="button" class="btn btn-primary" 
+                    data-title="Editar" data-target="#editar" >
+                    <span class="fa fa-edit"></span></button></p>
+                  </a>
+                </td>
+                
+                <!--Botón para eliminar la información de una frase motivacional-->
+                <td>
+                  <a href="/eliminarFrase/{{frase.pk}}" class="delete"
+                    data-confirm="¿Está seguro de que desea eliminar esta frase?">
+                    <p title="Eliminar"><button  type="button" 
+                    class="btn btn-danger" data-title="Eliminar" 
+                    data-target="#eliminar"><span class="fa fa-trash"></span>
+                    </button></p>
+                  </a>
+                </td> 
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
       </table>    
@@ -83,14 +86,7 @@
 {% endblock %}
 
 {% block extraScript %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('table#fraseTable').DataTable({
-              "ordering": false,
-            });
-        } );
-    </script>
-  
+  <script src="/static/js/scripts/frases.js"></script>
 {% endblock %}
+
 

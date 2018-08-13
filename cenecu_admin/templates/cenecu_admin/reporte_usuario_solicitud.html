@@ -31,20 +31,6 @@
 <script src="{% static 'js/reporte.js' %}"></script>
 
 <script type="text/javascript">
-
-
-    function expoRepo(tipoRepo){
-
-        $.ajax({
-            url: {% url 'exportar_reporte' %},
-            data: {
-              'tipoRepo': tipoRepo
-            },
-            dataType: 'json'
-          });
-
-    }
-
 </script>
 
 {% endblock %}
@@ -66,17 +52,17 @@
                         data: {
                             labels: [{% for clave in dict_curso_numregistro %} "{{ clave }}", {% endfor %}],
                             datasets: [{
-                                label: '# Usuarios Interesados',
+                                label: '# Solicitudes de Registo por curso',
                                 data: [{% for valor in dict_curso_numregistro.values %} {{ valor}}, {% endfor %}],
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(124, 252, 0,0.2)',
-                                    'rgba(235, 215, 0,0.2)'
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(124, 252, 0,1)',
+                                    'rgba(235, 215, 0,1)'
                                 ],
                                 borderColor: [
                                     'rgba(255,99,132,1)',
@@ -94,9 +80,10 @@
                          options: {
                             scales: {
                                 yAxes: [{
-                                    display: false,
+                                    display: true,
                                     ticks: {
-                                        beginAtZero:true
+                                        beginAtZero:true,
+                                        stepSize: 1 
                                     }
                                 }]
                                 }
@@ -147,8 +134,8 @@
                 </div>
             </div>
                 <div class="rep-div rep-expo">
-                    <p>
-                        <button type="button" class="btn btn-success">Exportar Reporte</button>
+                    <p style="text-align: center;">
+                        <a type="button" class="btn btn-success" href="{% url 'reportes_xlsx' reporte=2 curso=0 %}" >Exportar Reporte</a>
                     </p>
                 </div>
             </div>

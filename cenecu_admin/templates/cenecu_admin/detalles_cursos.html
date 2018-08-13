@@ -75,8 +75,9 @@
                   </td>   
                   <!--Botón eliminar curso -->
                   <td>
-                    <a href="/eliminarCurso/{{curso.pk}}">
-                      <p  title="Eliminar"><button  type="button" class="btn btn-danger" data-title="Eliminar" data-target="#eliminar" ><span class="fa fa-trash"></span></button></p>
+                    <a href="/eliminarCurso/{{curso.pk}}"class="delete"
+                      data-confirm="¿Está seguro de que desea eliminar este curso?">
+                      <p  title="Eliminar"><button  type="button" class="btn btn-danger btn sweet-success-cancel" data-title="Eliminar" data-target="#eliminar" ><span class="fa fa-trash"></span></button></p>
                     </a> 
                   </td>  
                 </tr>
@@ -91,13 +92,5 @@
 {% endblock %}
 
 {% block extraScript %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('table#cursoTable').DataTable({
-              "ordering": false,
-            });
-        } );
-    </script>
-  
+  <script src="/static/js/scripts/cursos.js"></script>
 {% endblock %}

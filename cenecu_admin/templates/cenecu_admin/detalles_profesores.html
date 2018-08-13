@@ -21,7 +21,8 @@
     <div class="info-profesor">
       <div class="col-sm-9">
         <h2>Detalle de Profesores</h2>
-        <p>Muestra la información de los profesores creados y permite crear nuevos.</p>
+        <p>Muestra la información de los profesores creados y permite
+          crear nuevos.</p>
         <br />
         <br />
       </div> 
@@ -50,29 +51,32 @@
       <tbody>
         <!-- Información del perfil de un profesor-->
         {% for profesor in profesores %}
-          <tr>
-            <th scope="row"> {{forloop.counter}}</th>
-              <td>{{profesor.nombre}} {{profesor.apellido}}</td>
-              <td>{{profesor.titulo}}</td>
-              
-              <!-- Botón para editar la información de un profesor -->
-              <td><a href="/editarProfesor/{{profesor.pk}}">
-                <p  title="Editar"><button type="button" class="btn btn-primary" 
-                  data-title="Editar" data-target="#editar" >
-                  <span class="fa fa-edit"></span></button></p>
-                </a>
-              </td>  
-              
-              <!--Botón para eliminar profesor -->
-              <td>
-                <a href="/eliminarProfesor/{{profesor.pk}}">
-                  <p title="Eliminar"><button  type="button" 
-                  class="btn btn-danger" data-title="Eliminar" 
-                  data-target="#eliminar" ><span class="fa fa-trash"></span>
-                  </button></p>
-                </a> 
-              </td>  
-          </tr>
+          {% if profesor.estado == "Activo" %}
+            <tr>
+              <th scope="row"> {{forloop.counter}}</th>
+                <td>{{profesor.nombre}} {{profesor.apellido}}</td>
+                <td>{{profesor.titulo}}</td>
+                
+                <!-- Botón para editar la información de un profesor -->
+                <td><a href="/editarProfesor/{{profesor.pk}}">
+                  <p  title="Editar"><button type="button" class="btn btn-primary" 
+                    data-title="Editar" data-target="#editar" >
+                    <span class="fa fa-edit"></span></button></p>
+                  </a>
+                </td>  
+                
+                <!--Botón para eliminar profesor -->
+                <td>
+                  <a href="/eliminarProfesor/{{profesor.pk}}" class="delete"
+                    data-confirm="¿Está seguro de que desea eliminar este profesor?">
+                    <p title="Eliminar"><button  type="button" 
+                    class="btn btn-danger" data-title="Eliminar" 
+                    data-target="#eliminar"><span class="fa fa-trash"></span>
+                    </button></p>
+                  </a> 
+                </td>  
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
       </table>         
@@ -82,13 +86,5 @@
 {% endblock %}
 
 {% block extraScript %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('table#profesorTable').DataTable({
-              "ordering": false,
-            });
-        } );
-    </script>
-  
+  <script src="/static/js/scripts/profesores.js"></script>
 {% endblock %}

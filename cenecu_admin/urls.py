@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^reporteCurso/(?P<pk>[0-9]+)$', views.reporte_curso_compartido, name='reporte_curso_compartido'),
     url(r'^exportarReporte/$',views.exportar_repo, name='exportar_reporte'),
     url(r'^logout/$',views.cerrar_sesion, name='cerrar_sesion'),
+    url(r'^exportar/Reporte/(?P<reporte>[0-9]+)/(?P<curso>[0-9]+)$',views.reportes_xlsx, name='reportes_xlsx'),
 
     
 ]

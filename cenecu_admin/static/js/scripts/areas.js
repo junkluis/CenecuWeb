@@ -21,10 +21,10 @@ function validarLetrasNumeros(event){
   expresion2 = /[A-Za-z0-9áéíóúÁÉÍÓÚñÑ´\s\.\',']+$/;
   
   if(expresion.test(input+key) == true && 
-    expresion2.test(input+key) == true && 
-    input.length < 256){
+    expresion2.test(input+key) == true){
       console.log("correcto");
-  } else {
+  }else if(input.length > 255) {}     
+  else {
     alert("- El primer caracter deber ser una letra." +
     "\n- Este campo permite solo permite letras y números.");
     event.preventDefault();
@@ -45,3 +45,18 @@ function validarFormatoImagen(){
 function resetForm(){
       document.getElementById("nuevoArea-form").reset();
 }
+
+$(document).ready(function() {
+  $('table#areaTable').DataTable({
+    "ordering": false,
+  });
+});
+
+$('.delete').on("click", function (e) {
+  e.preventDefault();
+  var choice = confirm($(this).attr('data-confirm'));
+
+  if (choice) {
+      window.location.href = $(this).attr('href');
+  }
+});

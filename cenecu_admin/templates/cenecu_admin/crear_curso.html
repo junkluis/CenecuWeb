@@ -94,7 +94,7 @@
                             
                                 <label class="col-sm-2 col-form-label" for="dias">Hora Fin <span class="text-danger">*</span></label>
                                 <div class=col-sm-2 style="display: inline-flex;">
-                                    <input type="time" min="07:00" max="22:00"  class="form-control" id="hora-fin" name="hora-fin" 
+                                    <input type="time" min="07:00" max="22:00"  class="form-control" id="hora-fin" name="hora-fin" onchange="validarHoras()" 
                                  required>
                                    
                             
@@ -151,7 +151,7 @@
 
                     <div class="form-group row">
                         <div class="col-lg-12 " align="center">
-                            <button type="submit" class="btn btn-success">Crear</button>
+                            <button type="submit" class="btn btn-success" >Crear</button>
                             <button type="button" class="btn btn-primary" onclick="resetForm()">Limpiar</button>
                         </div>
                     </div>

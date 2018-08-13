@@ -40,13 +40,21 @@
               required onkeydown="validarLetras(event)">
           </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-lg-4 col-form-label" for="img_perfil">
+              Imagen actual</label>
+            <div class="col-lg-6">
+              <p>{{ img_perfil }}</p>
+            </div>
+        </div>
         
         <div class="form-group row">
           <label class="col-lg-4 col-form-label" for="img_perfil">
-            Foto<span class="text-danger">*</span></label>
+            Foto<span class="text-danger"></span></label>
           <div class="col-lg-6">
             <input type="FILE" class="form-control" id="img_perfil" 
-              name="img_perfil" required onchange="validarFormatoImagen()"
+              name="img_perfil" onchange="validarFormatoImagen()"
               accept="image/jpg, image/jpeg, image/png">
           </div>
         </div>
@@ -102,14 +110,22 @@
               onblur="validarLinkedin()">
           </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-lg-4 col-form-label" for="curriculum">
+              Currículum actual</label>
+            <div class="col-lg-6">
+              <p>{{ curriculum }}</p>
+            </div>
+        </div>
         
         <div class="form-group row">
           <label class="col-lg-4 col-form-label" for="curriculum">
-            Currículum<span class="text-danger">*</span></label>
+            Currículum<span class="text-danger"></span></label>
           <div class="col-lg-6">
             <input type="FILE" class="form-control" id="curriculum" 
               name="curriculum" accept=".pdf" 
-              onchange="validarFormatoArchivo()" required>
+              onchange="validarFormatoArchivo()">
           </div>
         </div>
         

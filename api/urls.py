@@ -81,6 +81,7 @@ urlpatterns = {
     url(r'^auth-jwt-refresh/', refresh_jwt_token),
     url(r'^auth-jwt-verify/', verify_jwt_token),
     url(r'^get-user/', views.get_user, name="user_info"),
+    url(r'^cambioPass/', views.cambiar_pass, name="cambiar_pass"),
 
 }
 

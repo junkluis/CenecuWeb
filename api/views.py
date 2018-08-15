@@ -511,6 +511,8 @@ def get_user(request):
 
 
 @api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def cambiar_pass(request):
     username = request.data["user"]
     new_pass = request.data["pass"]
@@ -521,45 +523,4 @@ def cambiar_pass(request):
         return Response({'msg': 'ok'})
     except User.DoesNotExist:
         return Response({'msg': 'err'})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

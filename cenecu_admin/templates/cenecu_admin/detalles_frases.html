@@ -22,8 +22,8 @@
       <div class="col-sm-9">
         <h2>Detalle de Frases Motivacionales</h2>
         <p>Muestra la información de las frases motivacionales creadas y permite crear nuevas.</p>
-        <br />
-        <br />
+        <br >
+        <br >
       </div> 
 
       <div class="boton-nuevo">
@@ -53,7 +53,7 @@
           {% if frase.estado == "Activo" %}
             <tr>
               <th scope="row"> {{forloop.counter}}</th>
-                <td>{{frase.descripcion}}</td>
+                <td><textarea class="box-responsive">{{frase.descripcion}}</textarea></td>
                 <td>{{frase.fecha_creado}}</td>
                 
                 <!-- Botón para editar la información de una frase motivacional-->

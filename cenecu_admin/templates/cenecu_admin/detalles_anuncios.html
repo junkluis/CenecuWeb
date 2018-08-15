@@ -39,7 +39,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th><textarea id="detalle">Descripción</textarea></th>
+            <th>Descripción</th>
             <th>Fecha Creado</th>
             <th>Fecha Límite</th>
             <th  width="60px">Editar</th>
@@ -53,7 +53,7 @@
             {% if anuncio.estado == "Activo" %}
               <tr>
                 <th scope="row"> {{forloop.counter}}</th>
-                <td>{{anuncio.descripcion}}</td>
+                <td><textarea class="box-responsive">{{anuncio.descripcion}}</textarea></td>
                 <td>{{anuncio.fecha_creado}}</td>
                 <td>{{anuncio.fecha_limite}}</td>
                 

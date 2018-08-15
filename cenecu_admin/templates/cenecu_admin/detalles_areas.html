@@ -22,8 +22,8 @@
       <div class="col-sm-9">
         <h2>Detalle de Áreas de Interés</h2>
         <p>Muestra la información de las áreas de interés creadas y permite crear nuevas.</p>
-        <br />
-        <br />
+        <br >
+        <br >
       </div> 
 
      <div class="boton-nuevo">
@@ -53,8 +53,8 @@
           {% if area.estado == "Activo" %}
             <tr>
               <th scope="row"> {{forloop.counter}}</th>
-                <td>{{area.nombre}}</td>
-                <td>{{area.descripcion}}</td>
+                <td class="box-name"><textarea class="box-responsive">{{area.nombre}}</textarea></td>
+                <td ><textarea class="box-responsive">{{area.descripcion}}</textarea></td>
                 
                 <!-- Botón para editar la información de un área de interés-->
                 <td>

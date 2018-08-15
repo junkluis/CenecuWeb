@@ -44,7 +44,7 @@
                             rows="10" cols="50" class="form-control alfanumerico"
                             id="descripcion" name="descripcion" maxlength="256"
                             placeholder="Ingrese la descripción del curso" 
-                            required onkeydown="validarLetrasNumerosDescripcion(event)"
+                            required onkeydown="validarLetrasNumeros(event)"
                             autocomplete="off"></textarea> 
                         </div>
                     </div>
@@ -164,4 +164,5 @@
 
 {% block extraScript %}
   <script src="/static/js/scripts/cursos.js"></script>
+  <script src="/static/js/scripts/refactoring1.js"></script>
 {% endblock %}

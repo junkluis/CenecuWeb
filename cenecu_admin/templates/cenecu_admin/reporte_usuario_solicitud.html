@@ -135,7 +135,9 @@
             </div>
                 <div class="rep-div rep-expo">
                     <p style="text-align: center;">
-                        <a type="button" class="btn btn-success" href="{% url 'reportes_xlsx' reporte=2 curso=0 %}" >Exportar Reporte</a>
+                        <a  href="{% url 'reportes_xlsx' reporte=2 curso=0 %}">
+                            <button type="button" class="btn btn-success">Exportar Reporte</button>
+                        </a>
                     </p>
                 </div>
             </div>

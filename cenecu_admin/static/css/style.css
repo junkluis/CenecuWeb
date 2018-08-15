@@ -34,13 +34,16 @@
     height: 100px;
 }
 
-#detalle {
+.box-responsive {
     background-color: transparent;
     border: 1px solid transparent;
     width: 100%;
     height: 100%;
 }
 
+.box-name {
+    width: 22%;
+}
 
 /*
     Template: Ela Admin

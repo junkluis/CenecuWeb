@@ -266,7 +266,6 @@ def crear_curso (request):
     if (request.user.is_authenticated):
         area = Area.objects.all()
         lista_profesor = Profesor.objects.all()
-        print(lista_profesor)
         context = {
             'area':area,
             'listaProfesor':lista_profesor
@@ -320,8 +319,12 @@ def modificar_curso(request):
     """Edita un curso que se encuentra en la base de datos"""
     if (request.user.is_authenticated):
         if (request.POST):
-            id_curso = int(request.POST.get('idcurso'))
+            lista_dias = request.POST.getlist('checks[]')
+            hora_inicio = request.POST.get('hora-inicio').split(":")
+            hora_fin = request.POST.get('hora-fin').split(":")
             nue_curso = Curso.objects.get(id = int(request.POST.get('idcurso')))
+            horarios =  Horario.objects.filter(curso_id = int(request.POST.get('idcurso')))
+            horarios.delete()
             nue_curso.nombre = request.POST.get('nombreCurso')
             nue_curso.descripcion = request.POST.get('descripcion')
 
@@ -337,10 +340,25 @@ def modificar_curso(request):
                 nue_curso.img_curso = Curso.objects.get(id = int(request.POST.get('idcurso'))).img_curso
             else:
                 nue_curso.img_curso = request.FILES.get('imgCurso')
-
+           
             nue_curso.estado = "Activo"
             nue_curso.fecha_creado = datetime.datetime.now()
             nue_curso.save()
+            #Crea nuevos horarios para el curso modificado 
+            for i in lista_dias:
+                horario = Horario()
+                horario.curso_id = nue_curso
+                horario.dia = (i).encode("utf-8")
+                horario.hora_inicio = int(hora_inicio[0])
+                horario.minutos_inicio =  int(hora_inicio[1])
+                horario.hora_fin =  int(hora_fin[0])
+                horario.minutos_fin = int(hora_fin[1])
+                horario.save()
+            #Realiza cambios si el usuario cambio de profesor
+            curso_profesor = CursoProfesor.objects.get(curso_id = int(request.POST.get('idcurso')))
+            curso_profesor.profesor_id = Profesor.objects.get(pk = request.POST.get('profesor'))
+            curso_profesor.save()
+
             messages.success(request, '¡Curso modificado correctamente!')
         return redirect ('/')
     else:
@@ -466,7 +484,12 @@ def modificar_profesor(request):
                 nuevo_profesor.curriculum = request.FILES.get('curriculum')
             
             nuevo_profesor.estado = request.POST.get('estado')
+            area_id = request.POST.get('area_especializacion')
+            area_select = Area.objects.get(pk = area_id)
+            nuevo_profesor.area_especializacion = area_select
             nuevo_profesor.save()
+
+
             messages.success(request, '¡Profesor modificado correctamente!')
         return redirect ('/listarProfesores/')
     else:

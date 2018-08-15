@@ -65,23 +65,23 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="dias">Dias de clase <span class="text-danger">*</span></label>
                         <div class="col-sm-8" style="display: inline-flex;">
-                           <div class="div-dias">
-                                <input type="checkbox" name="dia" class="chk" value="L"  > Lunes<br>
+                            <div class="div-dias">
+                                <input type="checkbox" name="checks[]" class="chk" id="dia-l" value="L"  > Lunes<br>
                             </div>
                             <div class="div-dias">
-                                        <input type="checkbox" name="dia" class="chk" value="M"  > Martes<br>
+                                <input type="checkbox" name="checks[]" class="chk" id="dia-m" value="M"  > Martes<br>
                             </div>
                             <div class="div-dias">
-                                        <input type="checkbox" name="dia" class="chk" value="Mi"  > Miercoles<br>
+                                <input type="checkbox" name="checks[]" class="chk" id="dia-mi" value="Mi"  > Miercoles<br>
                             </div>
                             <div class="div-dias">
-                                        <input type="checkbox" name="dia" class="chk" value="J"  > Jueves<br>
+                                <input type="checkbox" name="checks[]" class="chk" id="dia-j"   value="J"  > Jueves<br>
                             </div>
                             <div class="div-dias">
-                                        <input type="checkbox" name="dia" class="chk" value="V"  > Viernes<br>
+                                <input type="checkbox" name="checks[]" class="chk"  id="dia-v" value="V"  > Viernes<br>
                             </div>
                             <div class="div-dias">
-                                        <input type="checkbox" name="dia" class="chk" value="S"  > Sabado<br>
+                                <input type="checkbox" name="checks[]" class="chk"  id="dia-s"  value="S"  > Sabado<br>
                             </div>
      
                         </div>
@@ -104,7 +104,7 @@
                         </div>
                     <br ><br ><br ><br >
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label" for="pensum">
+                        <label class="col-sm-5 col-form-label" for="pensum">
                         Pénsum actual</label>
                         <div class="col-sm-6">
                             <p>{{ urlPensum }}</p>
@@ -172,6 +172,8 @@
                         <div class="col-sm-8">
                            <input type="file" class="form-control" id="imagen" name="imagen" value="{{imgCurso}}" onchange="validarFormatoImagen()" accept="image/jpg, image/jpeg, image/png">
                         </div>
+                        <input type="hidden" name="idcurso" id="idcurso" 
+                                          value="{{ idcurso }}">
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-10 ">
@@ -186,5 +188,25 @@
 </div>
 {% endblock %}
 {% block extraScript %}
+<script  type="text/javascript" >
+    {% for dias in horario_curso %}
+        {% if dias.dia == 'L'%}
+          document.getElementById("dia-l").checked = true;
+        {% elif dias.dia == 'M'%}
+          document.getElementById("dia-m").checked = true;
+        {% elif dias.dia == 'Mi'%}
+          document.getElementById("dia-mi").checked = true;
+        {% elif dias.dia == 'J'%}
+          document.getElementById("dia-j").checked = true;
+        {% elif dias.dia == 'V'%}
+          document.getElementById("dia-v").checked = true;
+        {% else %}
+          document.getElementById("dia-s").checked = true;
+        
+        {% endif %}
+    {% endfor %}
+
+
+</script>
 <script src="/static/js/scripts/cursos.js"></script>
 {% endblock %}

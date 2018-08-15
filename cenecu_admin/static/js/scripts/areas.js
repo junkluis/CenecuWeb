@@ -1,62 +1,45 @@
 
 //Validación de campos
 
+/* Para validar el formato en nombre de área */
 function validarLetras(event) {
-  var input = document.getElementsByClassName('letras').value;
-  var key = event.key;
-  var keyCode = event.keyCode;
-  var expresion = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s\.\',']+$/;
-  
-  if(!expresion.test(input+key)){
-    alert("Este campo permite solo permite letras.");
-    event.preventDefault();
-  }
+    var input = document.getElementsByClassName("letras").value;
+    var key = event.key;
+    var keyCode = event.keyCode;
+    var expresion = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s\.\',']+$/;
+    if (!expresion.test(input+key)) {
+        alert("Este campo permite solo permite letras.");
+        event.preventDefault();
+    }
 }
 
-function validarLetrasNumeros(event){
-  var input = document.getElementById('descripcion').value;
-  var key = event.key;            // Obtengo la tecla que presiono
-  var keyCode = event.keyCode;    // Obtengo el codigo de la tecla
-  expresion = /([A-Za-záéíóúÁÉÍÓÚñÑ´]+)/;
-  expresion2 = /[A-Za-z0-9áéíóúÁÉÍÓÚñÑ´\s\.\',']+$/;
-  
-  if(expresion.test(input+key) == true && 
-    expresion2.test(input+key) == true){
-      console.log("correcto");
-  }else if(input.length > 255) {}     
-  else {
-    alert("- El primer caracter deber ser una letra." +
-    "\n- Este campo permite solo permite letras y números.");
-    event.preventDefault();
-  }
+/* Para validar el formato de la imagen, solo admite .jpg, .jpeg y .png */
+function validarFormatoImagen() {
+    var extensionImagenes = /(.jpg|.jpeg|.png)$/i;
+    var imagen = document.getElementById("img_area");
+    var archivo = imagen.value;
+    if (!extensionImagenes.test(archivo)) {
+        console.log(archivo);
+        alert("El formato de la imagen no es válido.");
+        document.getElementById("img_area").value = "";        
+    }
 }
 
-function validarFormatoImagen(){
-  var extensionImagenes = /(.jpg|.jpeg|.png)$/i;
-  var imagen = document.getElementById('img_area');
-  var archivo = imagen.value;
-  if(!extensionImagenes.test(archivo)){
-      console.log(archivo);
-      alert("El formato de la imagen no es válido.");
-      document.getElementById('img_area').value = "";        
-  }
-}
-
+/* Para resetear */
 function resetForm(){
-      document.getElementById("nuevoArea-form").reset();
+    document.getElementById("nuevoArea-form").reset();
 }
 
 $(document).ready(function() {
-  $('table#areaTable').DataTable({
-    "ordering": false,
-  });
+    $("table#areaTable").DataTable({
+        "ordering": false,
+    });
 });
 
-$('.delete').on("click", function (e) {
-  e.preventDefault();
-  var choice = confirm($(this).attr('data-confirm'));
-
-  if (choice) {
-      window.location.href = $(this).attr('href');
-  }
+$(".delete").on("click", function (e) {
+    e.preventDefault();
+    var choice = confirm($(this).attr("data-confirm"));
+    if (choice) {
+        window.location.href = $(this).attr("href");
+    }
 });
